@@ -1,0 +1,7 @@
+__MACOSX
+.DS_Store
+Thumb.db
+
+/.idea
+/runtime
+/wecom
