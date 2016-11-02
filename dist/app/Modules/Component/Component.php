@@ -45,30 +45,15 @@ class Component extends AbstractAPI
      *
      * @var string
      */
-    protected $app_id;
-
-    /**
-     * 第三方平台AppSecret
-     */
-    protected $secret;
-
-    /**
-     * 公众号消息校验Token
-     */
-    protected $token;
-
-    /**
-     * 公众号消息加解密Key
-     */
-    protected $aes_key;
+    protected $component_appid;
 
     /**
      * ComponentService 构造函数.
-     * @param $app_id
+     * @param $component_appid
      */
-    public function __construct($app_id)
+    public function __construct($component_appid)
     {
-        $this->app_id = $app_id;
+        $this->component_appid = $component_appid;
     }
 
     /**
@@ -82,7 +67,7 @@ class Component extends AbstractAPI
 
         return Cache::get($cacheKey, function () use ($cacheKey) {
             $params = [
-                'component_appid' => $this->app_id,
+                'component_appid' => $this->component_appid,
             ];
             $response = $this->parseJSON('json', [self::API_CREATE_PREAUTHCODE, $params]);
 
@@ -108,7 +93,7 @@ class Component extends AbstractAPI
         $preAuthCode = $this->createPreAuthCode();
 
         // 拼接出微信公众号登录授权页面url
-        return sprintf(self::COMPONENT_LOGIN_PAGE, $this->app_id, $preAuthCode, urlencode($callback));
+        return sprintf(self::COMPONENT_LOGIN_PAGE, $this->component_appid, $preAuthCode, urlencode($callback));
     }
 
     /**
@@ -120,7 +105,7 @@ class Component extends AbstractAPI
     public function queryAuth($authorization_code)
     {
         $params = array(
-            'component_appid'    => $this->app_id,
+            'component_appid'    => $this->component_appid,
             'authorization_code' => $authorization_code,
         );
 
@@ -136,7 +121,7 @@ class Component extends AbstractAPI
     public function getAuthorizerInfo($authorizer_appid)
     {
         $params = array(
-            'component_appid'  => $this->app_id,
+            'component_appid'  => $this->component_appid,
             'authorizer_appid' => $authorizer_appid,
         );
 
@@ -153,7 +138,7 @@ class Component extends AbstractAPI
     public function getAuthorizerOption($authorizer_appid, $option_name)
     {
         $params = array(
-            'component_appid'  => $this->app_id,
+            'component_appid'  => $this->component_appid,
             'authorizer_appid' => $authorizer_appid,
             'option_name'      => $option_name,
         );
@@ -172,7 +157,7 @@ class Component extends AbstractAPI
     public function setAuthorizerOption($authorizer_appid, $option_name, $option_value)
     {
         $params = array(
-            'component_appid'  => $this->app_id,
+            'component_appid'  => $this->component_appid,
             'authorizer_appid' => $authorizer_appid,
             'option_name'      => $option_name,
             'option_value'     => $option_value,

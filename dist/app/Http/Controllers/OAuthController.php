@@ -3,57 +3,59 @@
 namespace Wechat\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Wechat\Services\OAuthService;
 
 class OAuthController extends Controller
 {
+    const OAUTH_REDIRECT = 'oauth.redirect';
+
     /**
      * 第三方登录
-     * @param $appid
-     * @param Request $request
+     *
+     * @param OAuthService $oauth
      * @return mixed
      */
-    public function oauth($appid, Request $request)
+    public function oauth(OAuthService $oauth)
     {
-        $request->session()->set('redirect', $request->get('redirect'));
+        $appid = request('appid');
+        $scope = !empty(request('scope')) ? request('scope') : 'snsapi_userinfo';
+        $callback = route('oauth_result', ['appid' => $appid]);
 
-        $auth = new Auth($appid);
-        $url = $auth->url(url('/wecom/'. $appid . '/oauth/callback'));
+        // 记录回调地址
+        session([self::OAUTH_REDIRECT => request('redirect')]);
+
+        $url = $oauth->authRedirectUrl($appid, $callback, $scope);
         return Redirect::to($url);
     }
 
     /**
      * 第三方登录回调
-     * @param $appid
-     * @param Request $request
+     *
      * @return mixed
      */
-    public function result($appid, Request $request)
+    public function result($appid, OAuthService $oauth)
     {
-        $auth = new Auth($appid);
-        $result = $auth->getAccessPermission($request->get('code'));
+        $token = $oauth->saveAuthorization($appid, request('code'));
 
-        // 保存oauth_tokens
-        $oauth_token = Oauth2Token::firstOrNew(['appid' => $appid, 'openid' => $result['openid']]);
-        $oauth_token->access_token = $result['access_token'];
-        $oauth_token->refresh_token = $result['refresh_token'];
-        $oauth_token->scope = $result['scope'];
-        $oauth_token->expires_in = $result['expires_in'];
-        $oauth_token->save();
+        // 回调返回openid
+        $url = session(self::OAUTH_REDIRECT) . '?openid=' . $token->openid;
 
-        $url = $request->session()->get('redirect') . '?openid=' . $result['openid'];
         return Redirect::to($url);
     }
 
-    public function info2(Request $request) {
-        $appid = $request->get('appid');
-        $openid = $request->get('openid');
+    /**
+     * 获取用户信息
+     *
+     * @param OAuthService $oauth
+     * @return string
+     */
+    public function userinfo(OAuthService $oauth) {
+        $appid = request('appid');
+        $openid = request('openid');
 
-        $oauth_token = Oauth2Token::where('appid', $appid)
-            ->where('openid', $openid)
-            ->first();
+        $user = $oauth->getUserInfo($appid, $openid);
 
-        $auth = new Auth($appid);
-        $user = $auth->getUser($oauth_token->access_token, $openid);
         return json_encode($user);
     }
 }

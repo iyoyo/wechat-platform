@@ -14,6 +14,7 @@ use Pimple\ServiceProviderInterface;
 use Wechat\Modules\Component\Component;
 use Wechat\Modules\Component\ComponentToken;
 use Wechat\Modules\Component\Guard;
+use Wechat\Modules\OAuth\OAuth;
 
 /**
  * 基于 EasyWechat 的服务提供者
@@ -48,8 +49,7 @@ class ComponentServiceProvider implements ServiceProviderInterface
 
         $pimple['component'] = function ($pimple) {
             $component = new Component(
-                $pimple['config']['app_id'],
-                $pimple['config']['component']['callback']
+                $pimple['config']['app_id']
             );
 
             $component_token = new ComponentToken(
@@ -60,6 +60,21 @@ class ComponentServiceProvider implements ServiceProviderInterface
             $component->setAccessToken($component_token);
 
             return $component;
+        };
+
+        $pimple['component_oauth'] = function ($pimple) {
+            $oauth = new OAuth(
+                $pimple['config']['app_id']
+            );
+
+            $component_token = new ComponentToken(
+                $pimple['config']['app_id'],
+                $pimple['config']['secret'],
+                $pimple['cache']
+            );
+            $oauth->setAccessToken($component_token);
+
+            return $oauth;
         };
     }
 }

@@ -31,3 +31,11 @@ service nginx restart
    ```
    参考 https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1433751277&token=&lang=zh_CN
 
+授权
+http://wechat.beta.ibd.so/platform/auth
+
+Oauth
+http://wechat.beta.ibd.so/api/oauth?appid=wxdea745d4f3fc823c&redirect=http://www.thenorhtface.com.cn
+
+获取用户信息
+http://wechat.beta.ibd.so/api/oauth?appid=wxdea745d4f3fc823c&openid=oTnA2wkreDPZ5WAfDGOgbaQJNQ8A

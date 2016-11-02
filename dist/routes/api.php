@@ -25,10 +25,10 @@ Route::any('/notify/{appid}', 'NotifyController@notifyAccount');
 // 引导用户进行OAuth授权
 Route::get('/oauth', 'OAuthController@oauth');
 // OAuth授权结果返回
-Route::get('/oauth/result', 'OAuthController@result');
+Route::get('/oauth/result/{appid}', 'OAuthController@result')->name('oauth_result');
 // 获取OAuth用户信息
-Route::get('/oauth/user', 'OAuthController@user');
-Route::get('/user/info', 'OAuthController@user');
+Route::get('/oauth/user', 'OAuthController@userinfo');
+Route::get('/user/info', 'OAuthController@userinfo');
 
 // 发送模板消息
 //Route::post('/notice/send', 'NoticeController@send');

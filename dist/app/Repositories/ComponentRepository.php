@@ -38,16 +38,4 @@ class ComponentRepository
         $authorizer = Authorizer::firstOrNew(['appid' => $appid]);
         return $authorizer;
     }
-
-    /**
-     * 获取用户的OAuthToken
-     *
-     * @param $appid
-     * @param $openid
-     *
-     */
-    public function getOAuthToken($appid, $openid)
-    {
-
-    }
 }
