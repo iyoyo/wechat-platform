@@ -8,7 +8,7 @@
 
 namespace Wechat\Services;
 
-use EasyWeChat\Foundation\Application;
+use Wechat\Modules\OAuth\OAuth;
 use Wechat\Repositories\OAuthTokenRepository;
 
 /**
@@ -20,53 +20,54 @@ use Wechat\Repositories\OAuthTokenRepository;
 class OAuthService
 {
     /**
-     * EasyWechat 微信接口入口对象
-     * @var Application
-     */
-    protected $api;
-
-    /**
      * 仓库
      * @var
      */
     protected $repository;
 
     /**
-     * ComponentService constructor.
-     * @param Application $api
-     * @param OAuthTokenRepository $repository
+     * 网页授权接口
+     * @var
      */
-    public function __construct(Application $api, OAuthTokenRepository $repository)
+    protected $oauth;
+
+    /**
+     * ComponentService constructor.
+     * @param OAuthTokenRepository $repository
+     * @param OAuth $oauth
+     */
+    public function __construct(
+        OAuthTokenRepository $repository,
+        OAuth $oauth)
     {
-        $this->api = $api;
         $this->repository = $repository;
+        $this->oauth = $oauth;
     }
 
     /**
      * 获取引导用户授权的URL
      *
+     * @param $appid
      * @param $callback
+     * @param string $scope
      * @return mixed
      */
-    public function authRedirectUrl($authorizer_appid, $callback, $scope = 'snsapi_userinfo')
+    public function authRedirectUrl($appid, $callback, $scope = 'snsapi_userinfo')
     {
-        // 获取API接口
-        $oauth = $this->api->component_oauth;
-        return $oauth->getOAuthUrl($authorizer_appid, $callback, $scope);
+        return $this->oauth->getOAuthUrl($appid, $callback, $scope);
     }
 
     /**
      * 保存用户授权信息
      *
+     * @param $appid
      * @param $code
+     * @return
      */
     public function saveAuthorization($appid, $code)
     {
-        // 获取API接口
-        $oauth = $this->api->component_oauth;
-
         // 获取Token
-        $result = $oauth->getOAuthToken($appid, $code);
+        $result = $this->oauth->getOAuthToken($appid, $code);
 
         // 保存Token
         $token = $this->repository->ensureToken($appid, $result['openid']);

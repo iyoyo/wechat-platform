@@ -1,23 +1,19 @@
 <?php
 namespace Wechat\Services;
 
-use EasyWeChat\Foundation\Application;
+use EasyWeChat\Core\AbstractAPI;
+use Wechat\Modules\Component\AuthorizerToken;
+use Wechat\Modules\Component\Component;
 use Wechat\Modules\Component\Guard;
 use Wechat\Modules\Component\VerifyTicket;
-use Wechat\Repositories\ComponentRepository;
+use Wechat\Repositories\AuthorizerRepository;
 
 /**
- * Component 服务
+ * 第三方平台服务
  * @package Wechat\Services
  */
-class ComponentService
+class PlatformService
 {
-    /**
-     * EasyWechat 微信接口入口对象
-     * @var Application
-     */
-    protected $api;
-
     /**
      * 仓库
      * @var
@@ -25,26 +21,41 @@ class ComponentService
     protected $repository;
 
     /**
-     * ComponentService constructor.
-     * @param Application $api
-     * @param ComponentRepository $repository
+     * 第三方平台接口
+     * @var Component
      */
-    public function __construct(Application $api, ComponentRepository $repository)
+    protected $component;
+
+    /**
+     * 第三方平台事件接口
+     * @var
+     */
+    protected $server;
+
+    /**
+     * ComponentService constructor.
+     * @param AuthorizerRepository $repository
+     * @param Component $component
+     * @param Guard $server
+     */
+    public function __construct(
+        AuthorizerRepository $repository,
+        Component $component,
+        Guard $server)
     {
-        $this->api = $api;
         $this->repository = $repository;
+        $this->component = $component;
+        $this->server = $server;
     }
 
     /**
-     * 授权事件处理
+     * 平台授权事件处理
      *
      * @return string
      */
     public function authEventProcess()
     {
-        $server = $this->api->component_server;
-
-        $server->setMessageHandler(function ($message) {
+        $this->server->setMessageHandler(function ($message) {
             switch ($message->InfoType) {
                 /*
                  * 1、推送component_verify_ticket
@@ -58,7 +69,7 @@ class ComponentService
             }
         });
 
-        return $server->serve();
+        return $this->server->serve();
     }
 
     /**
@@ -72,9 +83,7 @@ class ComponentService
      */
     public function authRedirectUrl($callback)
     {
-        // 获取API接口
-        $component = $this->api->component;
-        return $component->getAuthUrl($callback);
+        return $this->component->getAuthUrl($callback);
     }
 
     /**
@@ -86,11 +95,8 @@ class ComponentService
      */
     public function saveAuthorization($auth_code)
     {
-        // 获取API接口
-        $component = $this->api->component;
-
         // 换取公众号的接口调用凭据
-        $result = $component->queryAuth($auth_code);
+        $result = $this->component->queryAuth($auth_code);
         $info = $result['authorization_info'];
 
         // 创建一个授权对象
@@ -103,5 +109,22 @@ class ComponentService
 
         // 保存到数据库
         $authorizer->save();
+    }
+
+    /**
+     * 给API对象授权
+     * 步骤5：利用授权码调用用户公众号的相关API
+     *
+     * @param $appid
+     * @param AbstractAPI $api
+     */
+    public function authorizeAPI(AbstractAPI $api, $appid)
+    {
+        // 获取Token
+        $authorizer = $this->repository->getAuthorizer($appid);
+        $access_token = new AuthorizerToken($appid, $authorizer->refresh_token);
+
+        // 设置Token
+        $api->setAccessToken($access_token);
     }
 }

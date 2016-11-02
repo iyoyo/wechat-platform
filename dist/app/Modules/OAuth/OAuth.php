@@ -88,8 +88,11 @@ class OAuth extends AbstractAPI
     /**
      * 第四步：通过网页授权access_token获取用户基本信息（需授权作用域为snsapi_userinfo）
      *
-     * @param $access_token
+     * @param $refresh_token
      * @param $openid
+     * @param string $lang
+     * @return \Psr\Http\Message\ResponseInterface
+     * @internal param $access_token
      */
     public function getUserInfo($refresh_token, $openid, $lang = 'zh_CN')
     {

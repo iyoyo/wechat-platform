@@ -2,30 +2,26 @@
 
 namespace Wechat\Http\Controllers;
 
-use EasyWeChat\Foundation\Application;
-use Wechat\Modules\Component\Guard;
-use Wechat\Modules\Component\VerifyTicket;
-use Wechat\Services\ComponentService;
+use Wechat\Services\PlatformService;
 
 class NotifyController extends Controller
 {
     /**
      * 授权事件接收URL
      *
-     * @param ComponentService $component
+     * @param PlatformService $component
      * @return string
-     * @internal param Application $wechat
      */
-    public function notifyPlatform(ComponentService $component)
+    public function notifyPlatform(PlatformService $component)
     {
         return $component->authEventProcess();
     }
 
     /**
      * 公众号消息与事件接收URL
-     * @param ComponentService $component
+     * @param PlatformService $component
      */
-    public function notifyAccount(ComponentService $component)
+    public function notifyAccount(PlatformService $component)
     {
         //
     }

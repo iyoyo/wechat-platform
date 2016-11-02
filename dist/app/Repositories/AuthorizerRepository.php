@@ -11,10 +11,10 @@ namespace Wechat\Repositories;
 use Wechat\Models\Authorizer;
 
 /**
- * Component 仓库
+ * Authforizer 仓库
  * @package Wechat\Repositories
  */
-class ComponentRepository
+class AuthorizerRepository
 {
     /**
      * 获取APP授权

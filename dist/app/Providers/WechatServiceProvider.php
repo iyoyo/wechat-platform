@@ -2,12 +2,14 @@
 
 namespace Wechat\Providers;
 
-use EasyWeChat\Foundation\Application;
+use EasyWeChat\Encryption\Encryptor;
 use EasyWeChat\Support\Log;
 use Illuminate\Support\ServiceProvider;
 use Overtrue\LaravelWechat\CacheBridge;
-use Wechat\Modules\Providers\ComponentServiceProvider;
-use Wechat\Services\ComponentService;
+use Wechat\Modules\Component\Component;
+use Wechat\Modules\Component\ComponentToken;
+use Wechat\Modules\Component\Guard;
+use Wechat\Modules\OAuth\OAuth;
 
 class WechatServiceProvider extends ServiceProvider
 {
@@ -28,25 +30,52 @@ class WechatServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        /*
-         * 微信接口入口
+        // 让EasyWechat使用Laravel的日志
+        Log::setLogger(app('log'));
+
+        $config = config('wechat');
+        $encryptor = new Encryptor(
+            $config['app_id'],
+            $config['token'],
+            $config['aes_key']
+        );
+
+        $cache = new CacheBridge();
+        $component_token = new ComponentToken(
+            $config['app_id'],
+            $config['secret'],
+            $cache
+        );
+
+        /**
+         * Component Guard
          */
-        $this->app->singleton(['EasyWeChat\\Foundation\\Application' => 'wechat'], function($app){
-            // 使用Laravel的日志
-            Log::setLogger(app('log'));
+        $this->app->bind(Guard::class, function($app) use ($config, $encryptor){
+            $server = new Guard($config['token']);
+            $server->debug($config['debug']);
+            $server->setEncryptor($encryptor);
 
-            // 创建实例
-            $wechat = new Application(config('wechat'));
+            return $server;
+        });
 
-            // 使用Laravel的缓存
-            if (config('wechat.use_laravel_cache')) {
-                $wechat->cache = new CacheBridge();
-            }
+        /**
+         * Component
+         */
+        $this->app->bind(Component::class, function($app) use ($config, $component_token){
+            $component = new Component($config['app_id']);
+            $component->setAccessToken($component_token);
 
-            // 注册Component API, 这是EasyWechat的扩展
-            $wechat->register(new ComponentServiceProvider());
+            return $component;
+        });
 
-            return $wechat;
+        /**
+         * OAuth
+         */
+        $this->app->bind(OAuth::class, function($app) use ($config, $component_token){
+            $oauth = new OAuth($config['app_id']);
+            $oauth->setAccessToken($component_token);
+
+            return $oauth;
         });
     }
 }

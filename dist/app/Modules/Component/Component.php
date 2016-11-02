@@ -86,7 +86,6 @@ class Component extends AbstractAPI
      *
      * @param $callback
      * @return string
-     * @internal param $redirect
      */
     public function getAuthUrl($callback)
     {

@@ -2,25 +2,36 @@
 
 namespace Wechat\Http\Controllers;
 
-use Wechat\Authorizer;
-use Breeze\Wecom\AccessToken;
 use EasyWeChat\Notice\Notice;
 use Illuminate\Http\Request;
+use Wechat\Services\PlatformService;
 
-use Wechat\Http\Requests;
-use Wechat\Http\Controllers\Controller;
-
+/**
+ * 模板消息
+ * @package Wechat\Http\Controllers
+ */
 class NoticeController extends Controller
 {
-    public function send(Request $request) {
-        $appid = $request->get('appid');
-        $authorizer = Authorizer::where('appid', $appid)->first();
-        $access_token = new AccessToken($appid, $authorizer->refresh_token);
+    /**
+     * 发送模板消息
+     *
+     * @param Notice $notice
+     * @param PlatformService $platform
+     * @return string
+     * @throws \EasyWeChat\Core\Exceptions\InvalidArgumentException
+     */
+    public function send(Notice $notice, PlatformService $platform) {
+        // 参数
+        $appid = request('appid');
+        $data = request()->json()->all();
 
-        $data = $request->json()->all();
-        $service = new Notice($access_token);
-        $result = $service->send($data);
-        
+        // 授权
+        $platform->authorizeAPI($notice, $appid);
+
+        // 调用接口
+        $result = $notice->send($data);
+
+        // 返回JSON
         return json_encode($result);
     }
 }
