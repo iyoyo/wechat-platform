@@ -23,11 +23,12 @@ Route::any('/notify', 'NotifyController@notifyPlatform');
 Route::any('/notify/{appid}', 'NotifyController@notifyAccount');
 
 // 引导用户进行OAuth授权
-//Route::get('/oauth', 'WecomController@oauth');
-// Oauth授权结果返回
-//Route::get('/oauth/result', 'WecomController@oauthCallback');
-// 获取用户信息
-//Route::get('/user/info', 'UserController@info2');
+Route::get('/oauth', 'OAuthController@oauth');
+// OAuth授权结果返回
+Route::get('/oauth/result', 'OAuthController@result');
+// 获取OAuth用户信息
+Route::get('/oauth/user', 'OAuthController@user');
+Route::get('/user/info', 'OAuthController@user');
 
 // 发送模板消息
 //Route::post('/notice/send', 'NoticeController@send');

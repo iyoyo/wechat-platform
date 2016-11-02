@@ -22,7 +22,7 @@ service nginx restart
 # 接口调用说明
 
 1. 公众号授权，请直接访问 http://wecom.ibrand.cc/wecom/auth ，根据提示完成授权。
-1. 获取openid，请在应用中引导用户访问 http://wecom.ibrand.cc/wecom/wxdea745d4f3fc823c/oauth?redirect=http://www.thenorthface.com.cn/user/login
+1. 获取openid，请在应用中引导用户访问 http://wecom.ibrand.cc/wecom/wx4410337599121213/oauth?redirect=http://www.funtasy.com.cn/
    用户授权后，会将openid放在url后面跳转到redirect地址。
 1. 获取用户信息 http://wecom.ibrand.cc/api/user/info?appid=wxdea745d4f3fc823c&openid=ovNizjljOb2KsS-XgyLYhJHQcPQo
 1. 发送模版消息

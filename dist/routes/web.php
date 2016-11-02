@@ -16,9 +16,9 @@ Route::get('/', function () {
 });
 
 // 引导用户进行公众号授权
-//Route::get('/platform/auth', 'PlatformController@auth');
+Route::get('/platform/auth', 'PlatformController@auth');
 // 授权成功提示页面
-//Route::get('/platform/auth/result', 'PlatformController@authSuccess');
+Route::get('/platform/auth/result', 'PlatformController@authResult')->name('component_auth_result');
 
 // 兼容旧版本URL
 //Route::any('/wecom/callback', 'WecomController@callback');

@@ -6,15 +6,20 @@
  * Time: 15:34
  */
 
-namespace Breeze\Wecom\Providers;
+namespace Wechat\Modules\Providers;
 
-
-use Breeze\Wecom\ComponentGuard;
 use EasyWeChat\Encryption\Encryptor;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
+use Wechat\Modules\Component\Component;
+use Wechat\Modules\Component\ComponentToken;
+use Wechat\Modules\Component\Guard;
 
-class ComponentServerServiceProvider implements ServiceProviderInterface
+/**
+ * 基于 EasyWechat 的服务提供者
+ * @package Wechat\Modules\Providers
+ */
+class ComponentServiceProvider implements ServiceProviderInterface
 {
 
     /**
@@ -34,12 +39,27 @@ class ComponentServerServiceProvider implements ServiceProviderInterface
                 $pimple['config']['aes_key']
             );
         };
-
         $pimple['component_server'] = function ($pimple) {
-            $server = new ComponentGuard($pimple['config']['token']);
+            $server = new Guard($pimple['config']['token']);
             $server->debug($pimple['config']['debug']);
             $server->setEncryptor($pimple['encryptor']);
             return $server;
+        };
+
+        $pimple['component'] = function ($pimple) {
+            $component = new Component(
+                $pimple['config']['app_id'],
+                $pimple['config']['component']['callback']
+            );
+
+            $component_token = new ComponentToken(
+                $pimple['config']['app_id'],
+                $pimple['config']['secret'],
+                $pimple['cache']
+            );
+            $component->setAccessToken($component_token);
+
+            return $component;
         };
     }
 }

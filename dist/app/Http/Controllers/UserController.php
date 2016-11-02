@@ -25,17 +25,4 @@ class UserController extends Controller
         $user = $userService->get($openid);
         return json_encode($user);
     }
-
-    public function info2(Request $request) {
-        $appid = $request->get('appid');
-        $openid = $request->get('openid');
-
-        $oauth_token = Oauth2Token::where('appid', $appid)
-            ->where('openid', $openid)
-            ->first();
-
-        $auth = new Auth($appid);
-        $user = $auth->getUser($oauth_token->access_token, $openid);
-        return json_encode($user);
-    }
 }

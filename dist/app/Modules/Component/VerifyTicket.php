@@ -1,6 +1,6 @@
 <?php
 
-namespace Breeze\Wecom;
+namespace Wechat\Modules\Component;
 
 use Illuminate\Support\Facades\Cache;
 
@@ -9,9 +9,9 @@ use Illuminate\Support\Facades\Cache;
  *
  * @package Breeze\Wecom
  */
-class ComponentVerifyTicket
+class VerifyTicket
 {
-    protected static $cacheKey = 'breeze.wechat.component_verify_ticket';
+    protected static $cacheKey = 'wechat.component_verify_ticket';
 
     public static function setTicket($componentVerifyTicket)
     {
