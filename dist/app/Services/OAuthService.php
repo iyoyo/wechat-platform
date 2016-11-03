@@ -8,8 +8,11 @@
 
 namespace Wechat\Services;
 
+use Wechat\Modules\OAuth\AccessToken;
 use Wechat\Modules\OAuth\OAuth;
+use Wechat\Modules\Component\ComponentToken;
 use Wechat\Repositories\OAuthTokenRepository;
+
 
 /**
  * 基于Component授权的OAuth服务
@@ -30,6 +33,12 @@ class OAuthService
      * @var
      */
     protected $oauth;
+
+    /**
+     * 第三方平台接口
+     * @var Component
+     */
+    protected $component;
 
     /**
      * ComponentService constructor.
@@ -89,10 +98,13 @@ class OAuthService
      */
     public function getUserInfo($appid, $openid)
     {
+        //获取refresh_token
         $token = $this->repository->getToken($appid, $openid);
 
-        //
+        $config = config('wechat');
+        $oauth = new OAuth($config['app_id']);
 
-        return $this->api;
+
+        return $oauth->getUserInfo($appid,$token->refresh_token,$openid);
     }
 }

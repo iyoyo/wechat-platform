@@ -94,10 +94,12 @@ class OAuth extends AbstractAPI
      * @return \Psr\Http\Message\ResponseInterface
      * @internal param $access_token
      */
-    public function getUserInfo($refresh_token, $openid, $lang = 'zh_CN')
+    public function getUserInfo($appid,$refresh_token, $openid, $lang = 'zh_CN')
     {
         // 通过refresh_token 获取 access_token
-        $access_token = new AccessToken();
+        $config = config('wechat');
+        $access_token = new AccessToken($config['app_id'],$config['secret']);
+        $access_token->setAccessToken($appid, $refresh_token,$this->accessToken);
 
         // 获取用户信息
         $params = [
@@ -105,7 +107,8 @@ class OAuth extends AbstractAPI
             'openid'            => $openid,
             'lang'              => $lang,
         ];
+        $http = $this->getHttp();
+        return $http->parseJSON($http->get(self::API_USERINFO, $params));;
 
-        return $this->http->get(self::API_USERINFO, $params);
     }
 }
