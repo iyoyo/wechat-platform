@@ -38,4 +38,4 @@ Oauth
 http://wechat.beta.ibd.so/api/oauth?appid=wxdea745d4f3fc823c&redirect=http://www.thenorhtface.com.cn
 
 获取用户信息
-http://wechat.beta.ibd.so/api/oauth?appid=wxdea745d4f3fc823c&openid=oTnA2wkreDPZ5WAfDGOgbaQJNQ8A
+http://wechat.beta.ibd.so/api/oauth/user?appid=wxdea745d4f3fc823c&openid=oTnA2wkreDPZ5WAfDGOgbaQJNQ8A
