@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Config;
  */
 class AuthorizerToken extends AccessToken
 {
-    const API_AUTHORIZER_TOKEN = 'https://api.weixin.qq.com/cgi-bin/component/api_authorizer_token';
+    const API_AUTHORIZER_TOKEN = 'https://api.weixin.qq.com/cgi-bin/component/api_authorizer_token?component_access_token=%s';
 
     /**
      * Cache key prefix.
@@ -23,18 +23,11 @@ class AuthorizerToken extends AccessToken
     protected $prefix = 'wechat.authorizer_access_token.';
 
     /**
-     * 授权方的APPID
-     *
-     * @var string
-     */
-    protected $authorizer_appid;
-
-    /**
      * 授权方的刷新令牌
      *
      * @var string
      */
-    protected $authorizer_refresh_token;
+    protected $refresh_token;
 
     /**
      * 第三方平台access_token
@@ -46,27 +39,18 @@ class AuthorizerToken extends AccessToken
     /**
      * Constructor.
      *
-     * @param string                       $appId
-     * @param string                       $secret
-     * @param \Doctrine\Common\Cache\Cache $cache
+     * @param string $appId
+     * @param string $refresh_token
+     * @param ComponentToken $component_token
+     * @param \Doctrine\Common\Cache\Cache|Cache $cache
      */
-    public function __construct($appId, $component_token, Cache $cache = null)
+    public function __construct($appId, $refresh_token, ComponentToken $component_token)
     {
-        $this->appId = $appId;
+        $this->refresh_token = $refresh_token;
         $this->component_token = $component_token;
-        $this->cache = $cache;
-    }
+        $cache = $component_token->getCache();
 
-    /**
-     * 设置授权方的信息
-     *
-     * @param $authorizer_appid
-     * @param $authorizer_refresh_token
-     */
-    public function setAuthorizer($authorizer_appid, $authorizer_refresh_token)
-    {
-        $this->authorizer_appid = $authorizer_appid;
-        $this->authorizer_refresh_token = $authorizer_refresh_token;
+        parent::__construct($appId, NULL, $cache);
     }
 
     /**
@@ -79,13 +63,15 @@ class AuthorizerToken extends AccessToken
     public function getTokenFromServer()
     {
         $params = [
-            'component_appid'          => $this->authorizer_appid,
+            'component_appid'          => $this->component_token->getAppId(),
             'authorizer_appid'         => $this->appId,
-            'authorizer_refresh_token' => $this->authorizer_refresh_token,
+            'authorizer_refresh_token' => $this->refresh_token,
         ];
 
         $http = $this->getHttp();
-        $token = $http->parseJSON($http->json(self::API_AUTHORIZER_TOKEN."?component_access_token=".$this->component_token, $params));
+        $url = sprintf(self::API_AUTHORIZER_TOKEN, $this->component_token->getToken());
+        $token = $http->parseJSON($http->json($url, $params));
+
         if (empty($token['authorizer_access_token'])) {
             throw new HttpException('Request AccessToken fail. response: '.json_encode($token, JSON_UNESCAPED_UNICODE));
         }

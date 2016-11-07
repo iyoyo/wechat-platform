@@ -26,51 +26,32 @@ class OAuth extends AbstractAPI
     const API_USERINFO = 'https://api.weixin.qq.com/sns/userinfo'; // 获取用户信息
 
     /**
-     * 第三方平台appid
-     *
-     * @var string
-     */
-    protected $component_appid;
-
-    /**
-     * Cache
-     *
-     * @var string
-     */
-    protected $cache;
-
-    /**
-     * 构造函数.
-     * @param $app_id
-     */
-    public function __construct($component_appid, Cache $cache)
-    {
-        $this->component_appid = $component_appid;
-        $this->cache = $cache;
-    }
-
-    /**
      * 第一步：请求CODE
      * 在确保微信公众账号拥有授权作用域（scope参数）的权限的前提下（一般而言，已微信认证的服务号拥有snsapi_base和snsapi_userinfo），
      * 使用微信客户端打开以下链接（严格按照以下格式，包括顺序和大小写，并请将参数替换为实际内容）
      *
-     * @param $authorizer_appid
+     * @param $appid
      * @param $callback
      * @param string $scope snsapi_base, snsapi_userinfo
      * @param string $state
      * @return string
      */
-    public function getOAuthUrl($authorizer_appid, $callback, $scope = 'snsapi_userinfo', $state = 'STATE')
+    public function getOAuthUrl($appid, $callback, $scope = 'snsapi_userinfo', $state = 'STATE')
     {
+        // 第三方平台访问码
+        $component_token = $this->getAccessToken();
+
+        // 参数
         $params = array(
-            'appid'           => $authorizer_appid,
+            'appid'           => $appid,
             'redirect_uri'    => $callback,
             'response_type'   => 'code',
             'scope'           => $scope,
             'state'           => $state,
-            'component_appid' => $this->component_appid,
+            'component_appid' => $component_token->getAppId(),
         );
 
+        // 调用
         return self::API_OAUTH_URL . '?' . http_build_query($params) . '#wechat_redirect';
     }
 
@@ -78,19 +59,24 @@ class OAuth extends AbstractAPI
      * 第二步：通过code换取access_token
      * 获取第一步的code后，请求以下链接获取access_token：
      *
-     * @param $authorizer_appid
+     * @param $appid
      * @param $code
      * @return mixed
      */
-    public function getOAuthToken($authorizer_appid, $code)
+    public function getOAuthToken($appid, $code)
     {
+        // 第三方平台访问码
+        $component_token = $this->getAccessToken();
+
+        // 参数
         $params = array(
-            'appid'           => $authorizer_appid,
+            'appid'           => $appid,
             'code'            => $code,
             'grant_type'      => 'authorization_code',
-            'component_appid' => $this->component_appid,
+            'component_appid' => $component_token->getAppId(),
         );
 
+        // 调用
         return $this->parseJSON('get', [self::API_TOKEN_GET, $params]);
     }
 
@@ -105,18 +91,32 @@ class OAuth extends AbstractAPI
      */
     public function getUserInfo($appid, $refresh_token, $openid, $lang = 'zh_CN')
     {
-        //创建access_token对象
-        $component_access_token = $this->getAccessToken();
-        $access_token = new AccessToken($appid, $refresh_token, $this->cache, $component_access_token);
+        // 授权用户访问码
+        $access_token = $this->createAccessToken($appid, $refresh_token);
 
-        // 获取用户信息
+        // 参数
         $params = [
             'access_token'      => $access_token->getToken(),
             'openid'            => $openid,
             'lang'              => $lang,
         ];
 
+        // 调用
         return $this->parseJSON('get', [self::API_USERINFO, $params]);
 
+    }
+
+    /**
+     * 创建OAuth授权用户的访问码
+     *
+     * @param $appid
+     * @param $refresh_token
+     * @return AccessToken
+     */
+    public function createAccessToken($appid, $refresh_token)
+    {
+        $component_token = $this->getAccessToken();
+
+        return new AccessToken($appid, $refresh_token, $component_token);
     }
 }

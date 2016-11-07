@@ -30,21 +30,22 @@ class AccessToken extends \EasyWeChat\Core\AccessToken
      *
      * @var string
      */
-    protected $component_access_token;
+    protected $component_token;
 
     /**
      * Constructor.
      *
-     * @param string                       $appId
-     * @param string                       $secret
-     * @param \Doctrine\Common\Cache\Cache $cache
+     * @param string $appId
+     * @param string $refresh_token
+     * @param ComponentToken $component_token
      */
-    public function __construct($appId, $refresh_token, Cache $cache = null, ComponentToken $component_access_token)
+    public function __construct($appId, $refresh_token, ComponentToken $component_token)
     {
-        $this->appId = $appId;
         $this->refresh_token = $refresh_token;
-        $this->cache = $cache;
-        $this->component_access_token = $component_access_token;
+        $this->component_token = $component_token;
+        $cache = $component_token->getCache();
+
+        parent::__construct($appId, NULL, $cache);
     }
 
     /**
@@ -60,12 +61,12 @@ class AccessToken extends \EasyWeChat\Core\AccessToken
             'appid' => $this->appId,
             'grant_type' => 'refresh_token',
             'refresh_token' => $this->refresh_token,
-            'component_appid' => $this->component_access_token->getAppId(),
-            'component_access_token' => $this->component_access_token->getToken(),
+
+            'component_appid' => $this->component_token->getAppId(),
+            'component_access_token' => $this->component_token->getToken(),
         ];
 
         $http = $this->getHttp();
-
         $token = $http->parseJSON($http->get(self::API_ACCESS_TOKEN, $params));
 
         if (empty($token['access_token'])) {

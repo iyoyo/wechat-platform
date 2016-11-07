@@ -122,21 +122,11 @@ class PlatformService
      */
     public function authorizeAPI(AbstractAPI $api, $appid)
     {
-        $config = config('wechat');
         // 获取Token
         $authorizer = $this->repository->getAuthorizer($appid);
-
-        $cache = new CacheBridge();
-        $component_token = new ComponentToken(
-            $config['app_id'],
-            $config['secret'],
-            $cache
-        );
-
-        $access_token = new AuthorizerToken($appid, $component_token->getToken());
-        $access_token->setAuthorizer($config["app_id"], $authorizer->refresh_token);
+        $authorizer_token = $this->component->createAuthorizerToken($appid, $authorizer->refresh_token);
 
         // 设置Token
-        $api->setAccessToken($access_token);
+        $api->setAccessToken($authorizer_token);
     }
 }

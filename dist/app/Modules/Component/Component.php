@@ -4,6 +4,7 @@ namespace Wechat\Modules\Component;
 
 use Carbon\Carbon;
 use EasyWeChat\Core\AbstractAPI;
+use EasyWeChat\Core\AccessToken;
 use Illuminate\Support\Facades\Cache;
 
 /**
@@ -49,15 +50,30 @@ class Component extends AbstractAPI
 
     /**
      * ComponentService 构造函数.
-     * @param $component_appid
+     * @param ComponentToken $accessToken
      */
-    public function __construct($component_appid)
+    public function __construct(AccessToken $accessToken)
     {
-        $this->component_appid = $component_appid;
+        $this->component_appid = $accessToken->getAppId();
+        parent::__construct($accessToken);
     }
 
     /**
-     * 步骤1：第三方平台方获取预授权码（pre_auth_code）
+     * 引入用户进入授权页
+     *
+     * @param $callback
+     * @return string
+     */
+    public function getAuthUrl($callback)
+    {
+        $preAuthCode = $this->createPreAuthCode();
+
+        // 拼接出微信公众号登录授权页面url
+        return sprintf(self::COMPONENT_LOGIN_PAGE, $this->component_appid, $preAuthCode, urlencode($callback));
+    }
+
+    /**
+     * 3、获取预授权码pre_auth_code
      *
      * @return mixed
      */
@@ -82,20 +98,6 @@ class Component extends AbstractAPI
     }
 
     /**
-     * 步骤2：引入用户进入授权页
-     *
-     * @param $callback
-     * @return string
-     */
-    public function getAuthUrl($callback)
-    {
-        $preAuthCode = $this->createPreAuthCode();
-
-        // 拼接出微信公众号登录授权页面url
-        return sprintf(self::COMPONENT_LOGIN_PAGE, $this->component_appid, $preAuthCode, urlencode($callback));
-    }
-
-    /**
      * 4、使用授权码换取公众号的接口调用凭据和授权信息
      *
      * @param $authorization_code
@@ -112,7 +114,7 @@ class Component extends AbstractAPI
     }
 
     /**
-     * 获取授权方的账户信息
+     * 6、获取授权方的公众号帐号基本信息
      *
      * @param $authorizer_appid
      * @return mixed
@@ -128,7 +130,7 @@ class Component extends AbstractAPI
     }
 
     /**
-     * 获取授权方的选项设置信息
+     * 7、获取授权方的选项设置信息
      *
      * @param $authorizer_appid
      * @param $option_name
@@ -146,7 +148,7 @@ class Component extends AbstractAPI
     }
 
     /**
-     * 设置授权方的选项信息
+     * 8、设置授权方的选项信息
      *
      * @param $authorizer_appid
      * @param $option_name
@@ -163,5 +165,22 @@ class Component extends AbstractAPI
         );
 
         return $this->parseJSON('json', [self::API_SET_AUTHORIZER_OPTION, $params]);
+    }
+
+    /**
+     * 创建一个授权公众号的访问码
+     *
+     * @param $appid
+     * @param $refresh_token
+     */
+    public function createAuthorizerToken($appid, $refresh_token)
+    {
+        $component_token =  $this->getAccessToken();
+
+        new AuthorizerToken(
+            $appid,
+            $refresh_token,
+            $component_token
+        );
     }
 }

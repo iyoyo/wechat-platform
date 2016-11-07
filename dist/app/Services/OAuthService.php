@@ -101,6 +101,6 @@ class OAuthService
         //获取refresh_token
         $token = $this->repository->getToken($appid, $openid);
 
-        return $this->oauth->getUserInfo($appid,$token->refresh_token,$openid);
+        return $this->oauth->getUserInfo($appid, $token->refresh_token, $openid);
     }
 }

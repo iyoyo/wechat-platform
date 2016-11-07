@@ -44,11 +44,20 @@ class WechatServiceProvider extends ServiceProvider
         );
 
         $cache = new CacheBridge();
-        $component_token = new ComponentToken(
-            $config['app_id'],
-            $config['secret'],
-            $cache
-        );
+
+        /**
+         * 默认使用ComponentToken, 这个设置只针对第三方平台的API有效, 对于其他API需要通过setAccessToken方法指定。
+         */
+        $this->app->bind(AccessToken::class, function($app) use ($config, $cache) {
+            $token = new ComponentToken(
+                $config['app_id'],
+                $config['secret'],
+                $cache
+            );
+
+            return $token;
+        });
+
 
         /**
          * Component Guard
@@ -62,43 +71,13 @@ class WechatServiceProvider extends ServiceProvider
         });
 
         /**
-         * Component
-         */
-        $this->app->bind(Component::class, function($app) use ($config, $component_token){
-            $component = new Component($config['app_id']);
-            $component->setAccessToken($component_token);
-
-            return $component;
-        });
-
-        /**
-         * OAuth
-         */
-        $this->app->bind(OAuth::class, function($app) use ($config, $cache, $component_token){
-            $oauth = new OAuth($config['app_id'],$cache);
-            $oauth->setAccessToken($component_token);
-
-            return $oauth;
-        });
-
-        /**
          * Card
          */
-        $this->app->bind(Card::class, function($app) use ($cache, $component_token){
-            $card = new Card($component_token );
+        $this->app->bind(Card::class, function($app) use ($cache){
+            $card = new Card(resolve(AccessToken::class));
             $card->setCache($cache);
 
             return $card;
-        });
-
-        /**
-         * Notice
-         */
-        $this->app->bind(Notice::class, function($app) use ($cache, $component_token){
-            $notice = new Notice($component_token );
-            $notice->setCache($cache);
-
-            return $notice;
         });
     }
 }
