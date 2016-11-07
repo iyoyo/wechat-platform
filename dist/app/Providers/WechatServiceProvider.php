@@ -2,7 +2,10 @@
 
 namespace Wechat\Providers;
 
+use EasyWeChat\Card\Card;
+use EasyWeChat\Core\AccessToken;
 use EasyWeChat\Encryption\Encryptor;
+use EasyWeChat\Notice\Notice;
 use EasyWeChat\Support\Log;
 use Illuminate\Support\ServiceProvider;
 use Overtrue\LaravelWechat\CacheBridge;
@@ -71,11 +74,31 @@ class WechatServiceProvider extends ServiceProvider
         /**
          * OAuth
          */
-        $this->app->bind(OAuth::class, function($app) use ($config, $component_token){
-            $oauth = new OAuth($config['app_id']);
+        $this->app->bind(OAuth::class, function($app) use ($config, $cache, $component_token){
+            $oauth = new OAuth($config['app_id'],$cache);
             $oauth->setAccessToken($component_token);
 
             return $oauth;
+        });
+
+        /**
+         * Card
+         */
+        $this->app->bind(Card::class, function($app) use ($cache, $component_token){
+            $card = new Card($component_token );
+            $card->setCache($cache);
+
+            return $card;
+        });
+
+        /**
+         * Notice
+         */
+        $this->app->bind(Notice::class, function($app) use ($cache, $component_token){
+            $notice = new Notice($component_token );
+            $notice->setCache($cache);
+
+            return $notice;
         });
     }
 }

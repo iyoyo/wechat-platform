@@ -101,10 +101,6 @@ class OAuthService
         //获取refresh_token
         $token = $this->repository->getToken($appid, $openid);
 
-        $config = config('wechat');
-        $oauth = new OAuth($config['app_id']);
-
-
-        return $oauth->getUserInfo($appid,$token->refresh_token,$openid);
+        return $this->oauth->getUserInfo($appid,$token->refresh_token,$openid);
     }
 }

@@ -4,9 +4,11 @@ namespace Wechat\Services;
 use EasyWeChat\Core\AbstractAPI;
 use Wechat\Modules\Component\AuthorizerToken;
 use Wechat\Modules\Component\Component;
+use Wechat\Modules\Component\ComponentToken;
 use Wechat\Modules\Component\Guard;
 use Wechat\Modules\Component\VerifyTicket;
 use Wechat\Repositories\AuthorizerRepository;
+use Overtrue\LaravelWechat\CacheBridge;
 
 /**
  * 第三方平台服务
@@ -120,9 +122,19 @@ class PlatformService
      */
     public function authorizeAPI(AbstractAPI $api, $appid)
     {
+        $config = config('wechat');
         // 获取Token
         $authorizer = $this->repository->getAuthorizer($appid);
-        $access_token = new AuthorizerToken($appid, $authorizer->refresh_token);
+
+        $cache = new CacheBridge();
+        $component_token = new ComponentToken(
+            $config['app_id'],
+            $config['secret'],
+            $cache
+        );
+
+        $access_token = new AuthorizerToken($appid, $component_token->getToken());
+        $access_token->setAuthorizer($config["app_id"], $authorizer->refresh_token);
 
         // 设置Token
         $api->setAccessToken($access_token);

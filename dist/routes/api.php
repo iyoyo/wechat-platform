@@ -32,3 +32,6 @@ Route::get('/user/info', 'OAuthController@userinfo');
 
 // 发送模板消息
 Route::post('/notice/send', 'NoticeController@send');
+
+// 会员卡激活
+Route::post('/card/activate', 'CardController@activate');

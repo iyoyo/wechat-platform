@@ -37,6 +37,27 @@ class AuthorizerToken extends AccessToken
     protected $authorizer_refresh_token;
 
     /**
+     * 第三方平台access_token
+     *
+     * @var string
+     */
+    protected $component_token;
+
+    /**
+     * Constructor.
+     *
+     * @param string                       $appId
+     * @param string                       $secret
+     * @param \Doctrine\Common\Cache\Cache $cache
+     */
+    public function __construct($appId, $component_token, Cache $cache = null)
+    {
+        $this->appId = $appId;
+        $this->component_token = $component_token;
+        $this->cache = $cache;
+    }
+
+    /**
      * 设置授权方的信息
      *
      * @param $authorizer_appid
@@ -58,14 +79,13 @@ class AuthorizerToken extends AccessToken
     public function getTokenFromServer()
     {
         $params = [
-            'component_appid'          => $this->appId,
-            'authorizer_appid'         => $this->authorizer_appid,
+            'component_appid'          => $this->authorizer_appid,
+            'authorizer_appid'         => $this->appId,
             'authorizer_refresh_token' => $this->authorizer_refresh_token,
         ];
 
         $http = $this->getHttp();
-        $token = $http->parseJSON($http->json(self::API_AUTHORIZER_TOKEN, $params));
-
+        $token = $http->parseJSON($http->json(self::API_AUTHORIZER_TOKEN."?component_access_token=".$this->component_token, $params));
         if (empty($token['authorizer_access_token'])) {
             throw new HttpException('Request AccessToken fail. response: '.json_encode($token, JSON_UNESCAPED_UNICODE));
         }

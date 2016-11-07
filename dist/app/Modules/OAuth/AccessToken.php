@@ -1,14 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andrew
- * Date: 16/11/2
- * Time: 16:29
- */
 
 namespace Wechat\Modules\OAuth;
 
+use Doctrine\Common\Cache\Cache;
 use EasyWeChat\Core\Exceptions\HttpException;
+use Wechat\Modules\Component\ComponentToken;
 
 
 class AccessToken extends \EasyWeChat\Core\AccessToken
@@ -20,40 +16,35 @@ class AccessToken extends \EasyWeChat\Core\AccessToken
      *
      * @var string
      */
-    protected $prefix = 'wechat.access_token.';
-
-    /**
-     * 授权方的APPID
-     *
-     * @var string
-     */
-    protected $accesstoken_appid;
+    protected $prefix = 'wechat.oauth_access_token.';
 
     /**
      * 授权方的刷新令牌
      *
      * @var string
      */
-    protected $accesstoken_refresh_token;
+    protected $refresh_token;
 
     /**
      * component_access_token
      *
      * @var string
      */
-    protected $component_token;
+    protected $component_access_token;
 
     /**
-     * 设置授权方的信息
+     * Constructor.
      *
-     * @param $accesstoken_appid
-     * @param $accesstoken_refresh_token
+     * @param string                       $appId
+     * @param string                       $secret
+     * @param \Doctrine\Common\Cache\Cache $cache
      */
-    public function setAccessToken($accesstoken_appid, $accesstoken_refresh_token,$component_token)
+    public function __construct($appId, $refresh_token, Cache $cache = null, ComponentToken $component_access_token)
     {
-        $this->accesstoken_appid = $accesstoken_appid;
-        $this->accesstoken_refresh_token = $accesstoken_refresh_token;
-        $this->component_token = $component_token;
+        $this->appId = $appId;
+        $this->refresh_token = $refresh_token;
+        $this->cache = $cache;
+        $this->component_access_token = $component_access_token;
     }
 
     /**
@@ -66,11 +57,11 @@ class AccessToken extends \EasyWeChat\Core\AccessToken
     public function getTokenFromServer()
     {
         $params = [
-            'appid' => $this->accesstoken_appid,
+            'appid' => $this->appId,
             'grant_type' => 'refresh_token',
-            'refresh_token' => $this->accesstoken_refresh_token,
-            'component_appid' => $this->appId,
-            'component_access_token' => $this->component_token,
+            'refresh_token' => $this->refresh_token,
+            'component_appid' => $this->component_access_token->getAppId(),
+            'component_access_token' => $this->component_access_token->getToken(),
         ];
 
         $http = $this->getHttp();

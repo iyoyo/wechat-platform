@@ -8,6 +8,7 @@
 
 namespace Wechat\Modules\OAuth;
 
+use Doctrine\Common\Cache\Cache;
 use EasyWeChat\Core\AbstractAPI;
 
 /**
@@ -32,12 +33,20 @@ class OAuth extends AbstractAPI
     protected $component_appid;
 
     /**
+     * Cache
+     *
+     * @var string
+     */
+    protected $cache;
+
+    /**
      * 构造函数.
      * @param $app_id
      */
-    public function __construct($component_appid)
+    public function __construct($component_appid, Cache $cache)
     {
         $this->component_appid = $component_appid;
+        $this->cache = $cache;
     }
 
     /**
@@ -88,18 +97,17 @@ class OAuth extends AbstractAPI
     /**
      * 第四步：通过网页授权access_token获取用户基本信息（需授权作用域为snsapi_userinfo）
      *
-     * @param $refresh_token
-     * @param $openid
-     * @param string $lang
-     * @return \Psr\Http\Message\ResponseInterface
-     * @internal param $access_token
+     * @param $appid 公众号appid
+     * @param $refresh_token 用户授权时获取的refresh_token
+     * @param $openid 用户openid
+     * @param string $lang 语言
+     * @return \EasyWeChat\Support\Collection
      */
-    public function getUserInfo($appid,$refresh_token, $openid, $lang = 'zh_CN')
+    public function getUserInfo($appid, $refresh_token, $openid, $lang = 'zh_CN')
     {
-        // 通过refresh_token 获取 access_token
-        $config = config('wechat');
-        $access_token = new AccessToken($config['app_id'],$config['secret']);
-        $access_token->setAccessToken($appid, $refresh_token,$this->accessToken);
+        //创建access_token对象
+        $component_access_token = $this->getAccessToken();
+        $access_token = new AccessToken($appid, $refresh_token, $this->cache, $component_access_token);
 
         // 获取用户信息
         $params = [
@@ -107,8 +115,8 @@ class OAuth extends AbstractAPI
             'openid'            => $openid,
             'lang'              => $lang,
         ];
-        $http = $this->getHttp();
-        return $http->parseJSON($http->get(self::API_USERINFO, $params));;
+
+        return $this->parseJSON('get', [self::API_USERINFO, $params]);
 
     }
 }
