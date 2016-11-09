@@ -9,7 +9,7 @@ services:
     command: redis-server --appendonly yes
     labels:
       aliyun.scale: 1
-  webapp:
+  php:
     image: registry.cn-hangzhou.aliyuncs.com/iyoyo/wechat-platform:latest
     links:
       - redis
@@ -27,7 +27,7 @@ services:
       WECHAT_TOKEN: changeme
       WECHAT_AES_KEY: changeme
     labels:
-      aliyun.probe.url: http://container/test.php
+      aliyun.probe.url: http://container
       aliyun.probe.initial_delay_seconds: 10
       aliyun.routing.port_80: http://wechat.test.ibd.so
       aliyun.routing.session_sticky: true

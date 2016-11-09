@@ -7,4 +7,4 @@ cp .env.example .env
 replaceEnv .env
 
 # 更新数据库
-php artisan migrate
+php artisan migrate --force
