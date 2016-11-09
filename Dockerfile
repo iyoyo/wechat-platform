@@ -3,79 +3,32 @@
 #            -- 轻风 --
 #+++++++++++++++++++++++++++++++++++++++
 
-FROM iyoyo/php:centos-7
+FROM registry.cn-hangzhou.aliyuncs.com/iyoyo/php:centos-7
 
-ENV PHP_VERSION 7.0.12
+ENV APP_ENV production
+ENV APP_DEBUG false
+ENV APP_LOG_LEVEL debug
+ENV APP_URL http://wechat.test.ibd.so/
 
-# 安装依赖
-RUN yum -y install gcc gcc-c++ autoconf automake libtool make \
-    libxml2-devel openssl-devel curl-devel file-devel freetype-devel libmcrypt-devel libtidy-devel \
-    libjpeg-devel libpng-devel \
+ENV DB_HOST 127.0.0.1
+ENV DB_PORT 3306
+ENV DB_DATABASE wechat
+ENV DB_USERNAME wechat
+ENV DB_PASSWORD ''
 
-    # 下载源码
-    && mkdir -p /opt/src \
-    && cd /opt/src \
-    && wget http://cn2.php.net/get/php-$PHP_VERSION.tar.gz/from/this/mirror -O php-$PHP_VERSION.tar.gz \
-    && tar zxvf php-$PHP_VERSION.tar.gz \
+ENV REDIS_HOST redis
+ENV REDIS_PASSWORD null
+ENV REDIS_PORT 6379
 
-    # 编译安装
-    && cd /opt/src/php-$PHP_VERSION \
-    && ./configure \
-        --prefix=/opt/php \
-        --with-config-file-path=/opt/conf/php \
-        --with-config-file-scan-dir=/opt/conf/php/conf.d \
-        # MYSQL
-        --with-mysqli=shared,mysqlnd \
-        --with-pdo-mysql=shared,mysqlnd \
-        # FPM
-        --enable-fpm \
-        --with-fpm-user=www \
-        --with-fpm-group=www \
-        # 禁用
-        --disable-cgi \
-        --disable-phpdbg \
-        # 其他模块
-        --with-mcrypt=/usr/include \
-        --with-mhash \
-        --with-openssl \
-        --with-gd \
-        --with-iconv \
-        --with-zlib \
-        --enable-zip \
-        --enable-inline-optimization \
-        --disable-debug \
-        --disable-rpath \
-        --enable-shared \
-        --enable-xml \
-        --enable-bcmath \
-        --enable-shmop \
-        --enable-sysvsem \
-        --enable-mbregex \
-        --enable-mbstring \
-        --enable-ftp \
-        --enable-gd-native-ttf \
-        --enable-pcntl \
-        --enable-sockets \
-        --with-xmlrpc \
-        --enable-soap \
-        --without-pear \
-        --with-gettext \
-        --enable-session \
-        --with-curl \
-        --with-jpeg-dir \
-        --with-freetype-dir \
-        --enable-opcache \
-        --without-gdbm \
-        --disable-fileinfo \
-        --with-tidy \
-    && make \
-    && make install \
+ENV WECHAT_APP_ID ''
+ENV WECHAT_SECRET ''
+ENV WECHAT_TOKEN ''
+ENV WECHAT_AES_KEY ''
 
-    # 瘦身
-    && yum -y autoremove gcc gcc-c++ autoconf automake libtool make \
-    && yum clean all \
-    && rm -rf /opt/src
-
-# 复制配置文件
+# 复制文件
 COPY conf/ /opt/conf/
-COPY public/ /data/www/public/
+COPY dist/ $DOCUMENT_ROOT/
+
+RUN chmod -R 777 $DOCUMENT_ROOT/storage $DOCUMENT_ROOT/bootstrap/cache \
+    && cd $DOCUMENT_ROOT \
+    && composer install

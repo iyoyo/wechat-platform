@@ -1,0 +1,36 @@
+version: '2'
+
+services:
+  redis:
+    image: redis:alpine
+    volumes:
+      - /data/docker/redis:/data
+    restart: always
+    command: redis-server --appendonly yes
+    labels:
+      aliyun.scale: 1
+  webapp:
+    image: registry.cn-hangzhou.aliyuncs.com/iyoyo/wechat-platform:latest
+    links:
+      - redis
+    ports:
+      - 80
+    restart: always
+    environment:
+      APP_URL: http://wechat.test.ibd.so/
+      DB_HOST: changeme
+      DB_DATABASE: changeme
+      DB_USERNAME: changeme
+      DB_PASSWORD: changeme
+      WECHAT_APP_ID: changeme
+      WECHAT_SECRET: changeme
+      WECHAT_TOKEN: changeme
+      WECHAT_AES_KEY: changeme
+    labels:
+      aliyun.probe.url: http://container/test.php
+      aliyun.probe.initial_delay_seconds: 10
+      aliyun.routing.port_80: http://wechat.test.ibd.so
+      aliyun.routing.session_sticky: true
+      aliyun.rolling_updates: true
+      aliyun.scale: 2
+      aliyun.depends: redis
