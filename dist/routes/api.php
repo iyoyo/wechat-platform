@@ -33,5 +33,20 @@ Route::get('/user/info', 'OAuthController@userinfo');
 // 发送模板消息
 Route::post('/notice/send', 'NoticeController@send');
 
-// 会员卡激活
+//创建会员卡
+Route::post('/card/create', 'CardController@create');
+
+//创建货架
+Route::post('/card/landingpage/create', 'CardController@createLandingPage');
+
+//会员卡激活
 Route::post('/card/activate', 'CardController@activate');
+
+//更新会员信息
+Route::post('/card/updateuser','CardController@updateUser');
+
+//删除卡券
+Route::post('/card/delete','CardController@delete');
+
+//获取会员卡code
+Route::post('/card/getcode','CardController@getCode');

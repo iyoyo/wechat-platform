@@ -2,7 +2,9 @@
 
 namespace Wechat\Http\Controllers;
 
+use Wechat\Services\MessageService;
 use Wechat\Services\PlatformService;
+use Illuminate\Http\Request;
 
 class NotifyController extends Controller
 {
@@ -21,8 +23,8 @@ class NotifyController extends Controller
      * 公众号消息与事件接收URL
      * @param PlatformService $component
      */
-    public function notifyAccount(PlatformService $component)
+    public function notifyAccount($appid, MessageService $message)
     {
-        //
+        return $message->cardEventProcess($appid);
     }
 }

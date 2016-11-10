@@ -5,14 +5,11 @@ namespace Wechat\Providers;
 use EasyWeChat\Card\Card;
 use EasyWeChat\Core\AccessToken;
 use EasyWeChat\Encryption\Encryptor;
-use EasyWeChat\Notice\Notice;
 use EasyWeChat\Support\Log;
 use Illuminate\Support\ServiceProvider;
 use Overtrue\LaravelWechat\CacheBridge;
-use Wechat\Modules\Component\Component;
 use Wechat\Modules\Component\ComponentToken;
 use Wechat\Modules\Component\Guard;
-use Wechat\Modules\OAuth\OAuth;
 
 class WechatServiceProvider extends ServiceProvider
 {
@@ -64,6 +61,17 @@ class WechatServiceProvider extends ServiceProvider
          */
         $this->app->bind(Guard::class, function($app) use ($config, $encryptor){
             $server = new Guard($config['token']);
+            $server->debug($config['debug']);
+            $server->setEncryptor($encryptor);
+
+            return $server;
+        });
+
+        /**
+         * Guard
+         */
+        $this->app->bind(\EasyWeChat\Server\Guard::class, function($app) use ($config, $encryptor){
+            $server = new \EasyWeChat\Server\Guard($config['token']);
             $server->debug($config['debug']);
             $server->setEncryptor($encryptor);
 

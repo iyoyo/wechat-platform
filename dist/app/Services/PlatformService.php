@@ -2,13 +2,10 @@
 namespace Wechat\Services;
 
 use EasyWeChat\Core\AbstractAPI;
-use Wechat\Modules\Component\AuthorizerToken;
 use Wechat\Modules\Component\Component;
-use Wechat\Modules\Component\ComponentToken;
 use Wechat\Modules\Component\Guard;
 use Wechat\Modules\Component\VerifyTicket;
 use Wechat\Repositories\AuthorizerRepository;
-use Overtrue\LaravelWechat\CacheBridge;
 
 /**
  * 第三方平台服务

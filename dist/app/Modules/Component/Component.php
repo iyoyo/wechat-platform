@@ -177,7 +177,7 @@ class Component extends AbstractAPI
     {
         $component_token =  $this->getAccessToken();
 
-        new AuthorizerToken(
+        return new AuthorizerToken(
             $appid,
             $refresh_token,
             $component_token
