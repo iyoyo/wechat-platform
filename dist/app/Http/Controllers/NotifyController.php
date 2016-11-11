@@ -25,6 +25,6 @@ class NotifyController extends Controller
      */
     public function notifyAccount($appid, MessageService $message)
     {
-        return $message->cardEventProcess($appid);
+        return $message->accountEventProcess($appid);
     }
 }

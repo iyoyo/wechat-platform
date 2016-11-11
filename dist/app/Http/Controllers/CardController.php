@@ -59,7 +59,7 @@ class CardController extends Controller
      * @param Card $card
      * @param PlatformService $platform
      */
-    public function activate(Card $card, PlatformService $platform){
+    public function membershipActivate(Card $card, PlatformService $platform){
         // 参数
         $appid = request('appid');
         $data = request()->json()->all();
@@ -79,7 +79,7 @@ class CardController extends Controller
      * @param Card $card
      * @param PlatformService $platform
      */
-    public function updateUser(Card $card, PlatformService $platform){
+    public function membershipUpdate(Card $card, PlatformService $platform){
         // 参数
         $appid = request('appid');
         $data = request()->json()->all();

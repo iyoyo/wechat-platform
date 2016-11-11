@@ -35,21 +35,19 @@ class MessageService
      *
      * @return string
      */
-    public function cardEventProcess($appid)
+    public function accountEventProcess($appid)
     {
         $this->server->setMessageHandler(function ($message) use ($appid) {
-            switch ($message->MsgType) {
-                case "event":
-                    //用户领取会员卡，记录会员卡code
-                    if ($message->Event == "user_get_card"){
-                        $card = $this->repository->creatCard($appid, $message->CardId, $message->UserCardCode, $message->FromUserName);
+            if($message->MsgType == "event"){
+                switch ($message->Event) {
+                    case "user_get_card":
+                        $card = $this->repository->createCard($appid, $message->CardId, $message->UserCardCode, $message->FromUserName);
                         $card->save();
-                    }
-                    //用户删除会员卡，一并删除code记录
-                    if ($message->Event == "user_del_card"){
-                        $this->repository->delCard($appid, $message->CardId, $message->UserCardCode, $message->FromUserName);
-                    }
-                    break;
+                        break;
+                    case "user_del_card":
+                        $this->repository->deleteCard($appid, $message->CardId, $message->UserCardCode, $message->FromUserName);
+                        break;
+                }
             }
         });
         return $this->server->serve();

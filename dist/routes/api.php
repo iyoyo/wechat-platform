@@ -22,10 +22,6 @@ Route::any('/notify', 'NotifyController@notifyPlatform');
 // 公众号消息与事件接收URL
 Route::any('/notify/{appid}', 'NotifyController@notifyAccount');
 
-// 引导用户进行OAuth授权
-Route::get('/oauth', 'OAuthController@oauth');
-// OAuth授权结果返回
-Route::get('/oauth/result/{appid}', 'OAuthController@result')->name('oauth_result');
 // 获取OAuth用户信息
 Route::get('/oauth/user', 'OAuthController@userinfo');
 Route::get('/user/info', 'OAuthController@userinfo');
@@ -37,13 +33,13 @@ Route::post('/notice/send', 'NoticeController@send');
 Route::post('/card/create', 'CardController@create');
 
 //创建货架
-Route::post('/card/landingpage/create', 'CardController@createLandingPage');
+Route::post('/card/landing-page/create', 'CardController@createLandingPage');
 
 //会员卡激活
-Route::post('/card/activate', 'CardController@activate');
+Route::post('/card/membership/activate', 'CardController@membershipActivate');
 
 //更新会员信息
-Route::post('/card/updateuser','CardController@updateUser');
+Route::post('/card/membership/update','CardController@membershipUpdate');
 
 //删除卡券
 Route::post('/card/delete','CardController@delete');

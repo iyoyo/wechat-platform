@@ -24,7 +24,7 @@ class CardRepository
      * @param $openid
      * @return mixed
      */
-    public function creatCard($appid, $card_id, $code, $openid){
+    public function createCard($appid, $card_id, $code, $openid){
         return Card::firstOrNew(['appid' => $appid, 'card_id' => $card_id, 'code' => $code, 'openid' => $openid]);
     }
 
@@ -49,7 +49,7 @@ class CardRepository
      * @param $code
      * @param $openid
      */
-    public function delCard($appid, $card_id, $code, $openid){
+    public function deleteCard($appid, $card_id, $code, $openid){
         Card::where('appid', $appid)
             ->where('card_id', $card_id)
             ->where('code', $code)
