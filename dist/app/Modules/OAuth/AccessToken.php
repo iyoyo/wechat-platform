@@ -75,4 +75,29 @@ class AccessToken extends \EasyWeChat\Core\AccessToken
 
         return $token;
     }
+
+
+    /**
+     * Get token from WeChat API.
+     *
+     * @param $openid
+     * @param bool $forceRefresh
+     * @return string
+     * @throws HttpException
+     */
+    public function getToken($openid = '', $forceRefresh = false)
+    {
+        $cacheKey = $this->getCacheKey().".".$openid;
+        $cached = $this->getCache()->fetch($cacheKey);
+        if ($forceRefresh || empty($cached)) {
+            $token = $this->getTokenFromServer();
+
+            // XXX: T_T... 7200 - 1500
+            $this->getCache()->save($cacheKey, $token['access_token'], $token['expires_in'] - 1500);
+
+            return $token['access_token'];
+        }
+
+        return $cached;
+    }
 }

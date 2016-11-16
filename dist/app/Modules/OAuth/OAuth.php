@@ -96,7 +96,7 @@ class OAuth extends AbstractAPI
 
         // 参数
         $params = [
-            'access_token'      => $access_token->getToken(),
+            'access_token'      => $access_token->getToken($openid),
             'openid'            => $openid,
             'lang'              => $lang,
         ];
