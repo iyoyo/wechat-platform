@@ -131,7 +131,8 @@ class CardController extends Controller
         return json_encode($result);
     }
 
-    public function uploadImage(Material $material, PlatformService $platform){
+    public function uploadImage(Material $material, PlatformService $platform)
+    {
         // 参数
         $appid = request('appid');
         $file = request()->file('image');
@@ -140,8 +141,10 @@ class CardController extends Controller
         $platform->authorizeAPI($material, $appid);
 
         //保存图片
-        $path = getcwd() ."/image";
-        mkdir($path, 0777, true);
+        $path = getcwd() . "/image/";
+        if (opendir($path) == NULL) {
+            mkdir($path, 0777, true);
+        }
         $file->move($path, $file->getClientOriginalName());
 
         //调用接口
