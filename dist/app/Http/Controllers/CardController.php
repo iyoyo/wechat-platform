@@ -141,8 +141,8 @@ class CardController extends Controller
         $platform->authorizeAPI($material, $appid);
 
         //保存图片
-        $path = base_path()."/public/image/";
-        var_dump($path);exit;
+        $path = base_path()."/image/";
+
         if (!is_dir($path)) {
             mkdir($path, 0777, true);
         }
