@@ -142,6 +142,7 @@ class CardController extends Controller
 
         //保存图片
         $path = getcwd() . "/image/";
+        var_dump($path);exit;
         if (!is_dir($path)) {
             mkdir($path, 0777, true);
         }
