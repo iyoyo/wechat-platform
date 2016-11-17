@@ -140,16 +140,11 @@ class CardController extends Controller
         // 授权
         $platform->authorizeAPI($material, $appid);
 
-        //保存图片
-        $path = base_path()."/image/";
-
-        if (!is_dir($path)) {
-            mkdir($path, 0777, true);
-        }
-        $file->move($path, $file->getClientOriginalName());
+        //修改文件名
+        rename($file->getPathname(), "/tmp/".$file->getClientOriginalName());
 
         //调用接口
-        $result = $material->uploadArticleImage($path.$file->getClientOriginalName());
+        $result = $material->uploadArticleImage("/tmp/".$file->getClientOriginalName());
 
         return json_encode($result);
     }
