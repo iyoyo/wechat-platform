@@ -6,6 +6,7 @@ use EasyWeChat\Card\Card;
 use Illuminate\Http\Request;
 use Wechat\Services\PlatformService;
 use Wechat\Services\MessageService;
+use EasyWeChat\Material\Material;
 
 /**
  * 会员卡
@@ -126,6 +127,25 @@ class CardController extends Controller
 
         //调用接口
         $result = $message->getCode($appid, $data['card_id'], $data['openid']);
+
+        return json_encode($result);
+    }
+
+    public function uploadImage(Material $material, PlatformService $platform){
+        // 参数
+        $appid = request('appid');
+        $file = request()->file('image');
+
+        // 授权
+        $platform->authorizeAPI($material, $appid);
+
+        //保存图片
+        $path = getcwd() ."/image";
+        mkdir($path, 0777, true);
+        $file->move($path, $file->getClientOriginalName());
+
+        //调用接口
+        $result = $material->uploadArticleImage($path.$file->getClientOriginalName());
 
         return json_encode($result);
     }

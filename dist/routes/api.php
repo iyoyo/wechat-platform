@@ -46,3 +46,6 @@ Route::post('/card/delete','CardController@delete');
 
 //获取会员卡code
 Route::post('/card/getcode','CardController@getCode');
+
+//上传会员卡背景图
+Route::post('/card/upload/image','CardController@uploadImage');
