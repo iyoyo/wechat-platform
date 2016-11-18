@@ -2,8 +2,11 @@
 
 namespace Wechat\Exceptions;
 
+use EasyWeChat\Core\Exceptions\HttpException;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Http\Exception\HttpResponseException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -44,6 +47,10 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof HttpException){
+            return response()->json(['errcode' => $exception->getCode(), 'errmsg' => $exception->getMessage()]);
+        }
+
         return parent::render($request, $exception);
     }
 
