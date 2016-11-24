@@ -4,7 +4,7 @@ services:
   redis:
     image: redis:alpine
     volumes:
-      - /data/docker/redis:/data
+      - /data/wechat/redis:/data
     restart: always
     command: redis-server --appendonly yes
     labels:
