@@ -52,5 +52,6 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \Wechat\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'auth_client' => \Laravel\Passport\Http\Middleware\CheckClientCredentials::class,
     ];
 }
