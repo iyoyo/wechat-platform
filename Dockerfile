@@ -26,9 +26,10 @@ ENV WECHAT_TOKEN ''
 ENV WECHAT_AES_KEY ''
 
 # 复制文件
-COPY conf/ /opt/conf/
 COPY dist/ $DOCUMENT_ROOT/
-
-RUN chmod -R 777 $DOCUMENT_ROOT/storage $DOCUMENT_ROOT/bootstrap/cache \
+RUN set -ex \
     && cd $DOCUMENT_ROOT \
     && composer install
+
+# 复制配置
+COPY conf/ /opt/conf/
