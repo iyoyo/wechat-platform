@@ -17,4 +17,4 @@ ln -s $DATA_SHARE/storage storage
 php artisan migrate --force
 
 # 设置权限
-chown -R www:www storage bootstrap/cache
+chown -R www:www storage/ bootstrap/cache
