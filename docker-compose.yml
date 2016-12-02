@@ -4,13 +4,15 @@ services:
   redis:
     image: redis:alpine
     volumes:
-      - /data/docker/redis:/data
+      - /mnt/acs_mnt/nas/data/wechat-test/redis:/data
     restart: always
     command: redis-server --appendonly yes
     labels:
       aliyun.scale: 1
   php:
     image: registry.cn-hangzhou.aliyuncs.com/iyoyo/wechat-platform:latest
+    volumes:
+      - /mnt/acs_mnt/nas/data/wechat-test/share:/data/share
     links:
       - redis
     ports:
