@@ -3,7 +3,6 @@
 namespace Wechat\Http\Controllers;
 
 use EasyWeChat\Notice\Notice;
-use Illuminate\Http\Request;
 use Wechat\Services\PlatformService;
 
 /**

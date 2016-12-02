@@ -5,8 +5,8 @@ namespace Wechat\Http\Controllers;
 use EasyWeChat\Card\Card;
 use Wechat\Services\PlatformService;
 use Wechat\Services\MessageService;
-use EasyWeChat\Material\Material;
 use Exception;
+
 
 /**
  * 会员卡
@@ -131,28 +131,6 @@ class CardController extends Controller
         if (empty($result)){
             throw new Exception('cannot get code.', 1);
         }
-
-        return json_encode($result);
-    }
-
-    public function uploadImage(Material $material, PlatformService $platform)
-    {
-        // 参数
-        $appid = request('appid');
-        $file = request()->file('image');
-
-        if (empty($file)){
-            throw new Exception( 'cannot not find file.', 2);
-        }
-
-        // 授权
-        $platform->authorizeAPI($material, $appid);
-
-        //修改文件名
-        rename($file->getPathname(), "/tmp/".$file->getClientOriginalName());
-
-        //调用接口
-        $result = $material->uploadArticleImage("/tmp/".$file->getClientOriginalName());
 
         return json_encode($result);
     }

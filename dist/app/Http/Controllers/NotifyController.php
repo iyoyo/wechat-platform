@@ -4,7 +4,6 @@ namespace Wechat\Http\Controllers;
 
 use Wechat\Services\MessageService;
 use Wechat\Services\PlatformService;
-use Illuminate\Http\Request;
 
 class NotifyController extends Controller
 {

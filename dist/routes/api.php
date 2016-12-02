@@ -20,37 +20,49 @@ Route::get('/user', function (Request $request) {
 
 
 // 平台授权事件接收URL
-    Route::any('/notify', 'NotifyController@notifyPlatform');
+Route::any('/notify', 'NotifyController@notifyPlatform');
 // 公众号消息与事件接收URL
-    Route::any('/notify/{appid}', 'NotifyController@notifyAccount');
+Route::any('/notify/{appid}', 'NotifyController@notifyAccount');
 
 
 Route::group(['middleware' => 'auth_client'], function () {
-// 获取OAuth用户信息
+    // 获取OAuth用户信息
     Route::get('/oauth/user', 'OAuthController@userinfo');
     Route::get('/user/info', 'OAuthController@userinfo');
 
-// 发送模板消息
+    // 发送模板消息
     Route::post('/notice/send', 'NoticeController@send');
 
-//创建会员卡
+    //创建会员卡
     Route::post('/card/create', 'CardController@create');
 
-//创建货架
+    //创建货架
     Route::post('/card/landing-page/create', 'CardController@createLandingPage');
 
-//会员卡激活
+    //会员卡激活
     Route::post('/card/membership/activate', 'CardController@membershipActivate');
 
-//更新会员信息
+    //更新会员信息
     Route::post('/card/membership/update', 'CardController@membershipUpdate');
 
-//删除卡券
+    //删除卡券
     Route::post('/card/delete', 'CardController@delete');
 
-//获取会员卡code
+    //获取会员卡code
     Route::post('/card/getcode', 'CardController@getCode');
 
-//上传会员卡背景图
-    Route::post('/card/upload/image', 'CardController@uploadImage');
+    //上传会员卡背景图
+    Route::post('/card/upload/image', 'MediaController@uploadArticleImage');
+
+    //上传图片素材
+    Route::post('/media/upload/image', 'MediaController@uploadImage');
+
+    //上传永久图文消息
+    Route::post('/media/upload/article', 'MediaController@uploadArticle');
+
+    //预览消息
+    Route::post('/broadcast/preview', 'BroadcastController@preview');
+
+    //预览图文消息
+    Route::post('/broadcast/send', 'BroadcastController@send');
 });
