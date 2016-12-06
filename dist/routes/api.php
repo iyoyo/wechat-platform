@@ -65,4 +65,7 @@ Route::group(['middleware' => 'auth_client'], function () {
 
     //预览图文消息
     Route::post('/broadcast/send', 'BroadcastController@send');
+
+    //获取jsapi_ticket
+    Route::get('/js/ticket', 'JsController@ticket');
 });
