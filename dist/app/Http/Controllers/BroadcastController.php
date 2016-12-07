@@ -27,11 +27,10 @@ class BroadcastController extends Controller
         $platform->authorizeAPI($broadcast, $appid);
 
         //调用接口
-        //调用接口
         switch ($data['type']){
             case "news": case "image": case "video": case "voice":
-            $result = $broadcast->preview($data['type'], $data['media_id'], $data['open_id']);
-            break;
+                $result = $broadcast->preview($data['type'], $data['media_id'], $data['open_id']);
+                break;
             case "text":
                 $result = $broadcast->preview($data['type'], $data['text'], $data['open_id']);
                 break;
