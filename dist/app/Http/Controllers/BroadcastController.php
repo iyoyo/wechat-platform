@@ -27,7 +27,18 @@ class BroadcastController extends Controller
         $platform->authorizeAPI($broadcast, $appid);
 
         //调用接口
-        $result = $broadcast->preview($data['type'], $data['media_id'], $data['open_id']);
+        //调用接口
+        switch ($data['type']){
+            case "news": case "image": case "video": case "voice":
+            $result = $broadcast->preview($data['type'], $data['media_id'], $data['open_id']);
+            break;
+            case "text":
+                $result = $broadcast->preview($data['type'], $data['text'], $data['open_id']);
+                break;
+            case "card_id":
+                $result = $broadcast->preview($data['type'], $data['card_id'], $data['open_id']);
+                break;
+        }
 
         // 返回JSON
         return json_encode($result);
@@ -48,7 +59,17 @@ class BroadcastController extends Controller
         $platform->authorizeAPI($broadcast, $appid);
 
         //调用接口
-        $result = $broadcast->send($data['type'], $data['media_id'], $data['open_id']);
+        switch ($data['type']){
+            case "news": case "image": case "video": case "voice":
+                $result = $broadcast->send($data['type'], $data['media_id'], $data['open_id']);
+                break;
+            case "text":
+                $result = $broadcast->send($data['type'], $data['text'], $data['open_id']);
+                break;
+            case "card_id":
+                $result = $broadcast->send($data['type'], $data['card_id'], $data['open_id']);
+                break;
+        }
 
         // 返回JSON
         return json_encode($result);
