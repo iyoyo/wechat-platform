@@ -14,7 +14,14 @@ class PlatformController extends Controller
      */
     public function auth(PlatformService $platform)
     {
-        $callback = route('component_auth_result');
+        $clientId = request('client_id');
+        $redirectUrl = request('redirect_url');
+
+        if ($clientId AND $redirectUrl) {
+            \Cache::put($clientId, $redirectUrl);
+        }
+
+        $callback = route('component_auth_result',['client_id'=>$clientId]);
         $url = $platform->authRedirectUrl($callback);
 
         return Redirect::to($url);
@@ -30,6 +37,10 @@ class PlatformController extends Controller
     {
         $auth_code = request('auth_code');
         $platform->saveAuthorization($auth_code);
+
+        if(request('client_id') AND cache(request('client_id'))){
+            return redirect(cache('client_id'));
+        }
 
         return '授权成功！';
     }
