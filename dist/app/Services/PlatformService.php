@@ -108,6 +108,8 @@ class PlatformService
 
         // 保存到数据库
         $authorizer->save();
+
+        return $authorizer;
     }
 
     /**

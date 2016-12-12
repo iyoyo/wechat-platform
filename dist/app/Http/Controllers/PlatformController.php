@@ -21,7 +21,7 @@ class PlatformController extends Controller
             \Cache::put($clientId, $redirectUrl);
         }
 
-        $callback = route('component_auth_result',['client_id'=>$clientId]);
+        $callback = route('component_auth_result', ['client_id' => $clientId]);
         $url = $platform->authRedirectUrl($callback);
 
         return Redirect::to($url);
@@ -36,10 +36,12 @@ class PlatformController extends Controller
     public function authResult(PlatformService $platform)
     {
         $auth_code = request('auth_code');
-        $platform->saveAuthorization($auth_code);
+        $authorizer = $platform->saveAuthorization($auth_code);
 
-        if(request('client_id') AND cache(request('client_id'))){
-            return redirect(cache('client_id'));
+        if ($clientId = request('client_id') AND cache($clientId)) {
+            $authorizer->client_id = $clientId;
+            $authorizer->save();
+            return redirect(cache($clientId));
         }
 
         return '授权成功！';
