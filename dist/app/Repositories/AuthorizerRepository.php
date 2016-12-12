@@ -38,4 +38,9 @@ class AuthorizerRepository
         $authorizer = Authorizer::firstOrNew(['appid' => $appid]);
         return $authorizer;
     }
+
+    public function getAuthorizersByClient($clientId)
+    {
+        return Authorizer::where('client_id', $clientId)->get();
+    }
 }
