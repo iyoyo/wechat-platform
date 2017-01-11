@@ -31,7 +31,7 @@ Route::group(['middleware' => 'auth_client'], function () {
 
     // 获取OAuth用户信息
     Route::get('/oauth/user', 'OAuthController@userinfo');
-    Route::get('/user/info', 'OAuthController@userinfo');
+    //Route::get('/user/info', 'OAuthController@userinfo');
 
     // 发送模板消息
     Route::post('/notice/send', 'NoticeController@send');
