@@ -1,7 +1,7 @@
 <?php
 namespace Wechat\Services;
 
-use EasyWeChat\Server\Guard;
+use Wechat\Modules\OAuth\Guard;
 use Wechat\Repositories\CardRepository;
 
 /**
@@ -38,7 +38,7 @@ class MessageService
     public function accountEventProcess($appid)
     {
         $this->server->setMessageHandler(function ($message) use ($appid) {
-            if($message->MsgType == "event"){
+            if($message->MsgType == "event") {
                 switch ($message->Event) {
                     case "user_get_card":
                         $card = $this->repository->createCard($appid, $message->CardId, $message->UserCardCode, $message->FromUserName);
@@ -50,12 +50,16 @@ class MessageService
                 }
             }
         });
+
         return $this->server->serve();
     }
 
     /**
      * 获取会员卡code
      *
+     * @param $appid
+     * @param $card_id
+     * @param $openid
      * @return string
      */
     public function getCode($appid, $card_id, $openid){

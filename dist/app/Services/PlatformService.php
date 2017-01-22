@@ -65,6 +65,12 @@ class PlatformService
                 case Guard::MSG_VERIFY_TICKET:
                     VerifyTicket::setTicket($message['ComponentVerifyTicket']);
                     break;
+                /*
+                 * 保存全网发布测试推送过来的AuthorizationCode
+                 */
+                case "authorized":
+                    $this->saveAuthorization($message['AuthorizationCode']);
+                    break;
             }
         });
 
