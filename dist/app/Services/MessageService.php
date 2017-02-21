@@ -1,7 +1,7 @@
 <?php
 namespace Wechat\Services;
 
-use Wechat\Modules\OAuth\Guard;
+use \EasyWeChat\Server\Guard;
 use Wechat\Repositories\CardRepository;
 
 /**
@@ -47,10 +47,24 @@ class MessageService
                     case "user_del_card":
                         $this->repository->deleteCard($appid, $message->CardId, $message->UserCardCode, $message->FromUserName);
                         break;
+                    //全网发布测试：事件
+                    case "LOCATION":
+                        return "LOCATIONfrom_callback";
+                }
+            }
+            if($message->MsgType == "text") {
+                //全网发布测试：文本消息
+                if($message->Content == "TESTCOMPONENT_MSG_TYPE_TEXT"){
+                    return "TESTCOMPONENT_MSG_TYPE_TEXT_callback";
                 }
             }
         });
 
+        //全网发布测试：调用接口
+        $message = $this->server->getMessage();
+        if(strpos($message->Content, "QUERY_AUTH_CODE:") ==! false){
+            return $message->Content;
+        }
         return $this->server->serve();
     }
 

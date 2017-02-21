@@ -79,17 +79,6 @@ class WechatServiceProvider extends ServiceProvider
         });
 
         /**
-         * 全网发布测试 Guard
-         */
-        $this->app->bind(\Wechat\Modules\OAuth\Guard::class, function($app) use ($config, $encryptor){
-            $server = new \Wechat\Modules\OAuth\Guard($config['token']);
-            $server->debug($config['debug']);
-            $server->setEncryptor($encryptor);
-
-            return $server;
-        });
-
-        /**
          * Card
          */
         $this->app->bind(Card::class, function($app) use ($cache){
