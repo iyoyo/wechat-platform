@@ -18,7 +18,11 @@ RUN set -ex \
     # 设置目录权限
     && chmod -R 777 bootstrap/cache storage \
     # 链接公开文件
-    && ln -s $DOCUMENT_ROOT/storage/app/public public/storage
+    && ln -s $DOCUMENT_ROOT/storage/app/public public/storage \
+    # 做好软连接
+    && ln -sf $DATA_SHARE/env .env \
+    && rm -rf storage \
+    && ln -sf $DATA_SHARE/storage storage
 
 # 复制配置
 COPY conf/ /opt/conf/

@@ -11,11 +11,3 @@ fi
 if [ ! -d storage ]; then
     cp -r $DOCUMENT_ROOT/storage ./
 fi
-
-cd $DOCUMENT_ROOT
-
-# 做好软连接
-ln -sf $DATA_SHARE/env .env
-
-rm -rf storage
-ln -sf $DATA_SHARE/storage storage
