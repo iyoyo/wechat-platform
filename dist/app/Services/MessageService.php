@@ -63,10 +63,8 @@ class MessageService
 
         //全网发布测试：调用接口
         $message = $this->server->getMessage();
-        if($message['MsgType'] == "text") {
-            if (strstr($message['Content'], "QUERY_AUTH_CODE:") !== NULL) {
+        if($message['MsgType'] == "text" && strstr($message['Content'], "QUERY_AUTH_CODE:")) {
                 return $message['Content'];
-            }
         }
         return $this->server->serve();
     }
