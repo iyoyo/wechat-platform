@@ -3,6 +3,7 @@ namespace Wechat\Services;
 
 use \EasyWeChat\Server\Guard;
 use Wechat\Repositories\CardRepository;
+use Illuminate\Support\Facades\Log;
 
 /**
  * 公众平台推送
@@ -62,8 +63,10 @@ class MessageService
 
         //全网发布测试：调用接口
         $message = $this->server->getMessage();
-        if(strpos($message->Content, "QUERY_AUTH_CODE:") ==! false){
-            return $message->Content;
+        if($message['MsgType'] == "text") {
+            if (strpos($message->Content, "QUERY_AUTH_CODE:") == !false) {
+                return $message->Content;
+            }
         }
         return $this->server->serve();
     }

@@ -1,0 +1,1 @@
+<a href="{{$redirect_url}}">授权</a>

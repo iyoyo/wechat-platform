@@ -24,7 +24,8 @@ class PlatformController extends Controller
         $callback = route('component_auth_result', ['client_id' => $clientId]);
         $url = $platform->authRedirectUrl($callback);
 
-        return Redirect::to($url);
+        //return Redirect::to($url);
+        return view('platform/auth', ['redirect_url' => $url]);
     }
 
     /**
