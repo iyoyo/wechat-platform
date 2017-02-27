@@ -25,7 +25,7 @@ Route::any('/notify', 'NotifyController@notifyPlatform');
 Route::any('/notify/{appid}', 'NotifyController@notifyAccount');
 
 
-Route::group(['middleware' => 'auth_client'], function () {
+Route::group(['middleware' => ['auth_client', 'parameter']], function () {
 
     Route::get('authorizers', 'AuthorizerController@index');
 
