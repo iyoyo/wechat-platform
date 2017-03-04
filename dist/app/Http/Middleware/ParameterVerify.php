@@ -16,7 +16,6 @@ class ParameterVerify
         if(request('appid') == NULL){
             throw new Exception('Required parameter missing', 2);
         }
-        
         return $next($request);
     }
 }
