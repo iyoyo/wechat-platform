@@ -39,8 +39,8 @@ class JsController extends Controller
         $js->setUrl(request('url'));
 
         if($method = request('method') AND is_array($method)){
-            return $js->config($method);
+            return json_encode($js->config($method));
         }
-        return $js->config(array());
+        return json_encode($js->config(array()));
     }
 }
