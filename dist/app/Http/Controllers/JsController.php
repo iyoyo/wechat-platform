@@ -25,4 +25,22 @@ class JsController extends Controller
         //返回json
         return json_encode($result);
     }
+
+    public function config(Js $js, PlatformService $platform)
+    {
+        // 参数
+        $appid = request('appid');
+
+        // 授权
+        $platform->authorizeAPI($js, $appid);
+
+        //调用接口
+
+        $js->setUrl(request('url'));
+
+        if($method = request('method') AND is_array($method)){
+            return $js->config($method);
+        }
+        return $js->config(array());
+    }
 }
