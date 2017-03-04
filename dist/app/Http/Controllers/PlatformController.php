@@ -18,7 +18,7 @@ class PlatformController extends Controller
         $redirectUrl = request('redirect_url');
 
         if ($clientId AND $redirectUrl) {
-            \Cache::put($clientId, $redirectUrl);
+            \Cache::put($clientId, $redirectUrl,10);
         }
 
         $callback = route('component_auth_result', ['client_id' => $clientId]);
@@ -38,7 +38,6 @@ class PlatformController extends Controller
     {
         $auth_code = request('auth_code');
         $authorizer = $platform->saveAuthorization($auth_code);
-
         if ($clientId = request('client_id') AND cache($clientId)) {
             $authorizer->client_id = $clientId;
             $authorizer->save();
