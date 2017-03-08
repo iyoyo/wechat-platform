@@ -87,7 +87,7 @@ class AccessToken extends \EasyWeChat\Core\AccessToken
      */
     public function getToken($openid = '', $forceRefresh = false)
     {
-        $cacheKey = $this->getCacheKey($openid);
+        $cacheKey = $this->prefix.$this->appId.$openid;
         $cached = $this->getCache()->fetch($cacheKey);
         if ($forceRefresh || empty($cached)) {
             $token = $this->getTokenFromServer();
@@ -99,17 +99,4 @@ class AccessToken extends \EasyWeChat\Core\AccessToken
         return $cached;
     }
 
-    /**
-     * Get access token cache key.
-     *
-     * @return string $this->cacheKey
-     */
-    public function getCacheKey($openid)
-    {
-        if (is_null($this->cacheKey)) {
-            return $this->prefix.$this->appId.$openid;
-        }
-
-        return $this->cacheKey;
-    }
 }
