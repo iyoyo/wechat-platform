@@ -71,4 +71,6 @@ Route::group(['middleware' => ['auth_client', 'parameter']], function () {
 
     //获取jsapi_ticket
     Route::get('/js/ticket', 'JsController@ticket');
+
+    Route::get('/js/config', 'JsController@config');
 });
