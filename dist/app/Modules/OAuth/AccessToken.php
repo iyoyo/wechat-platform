@@ -87,10 +87,10 @@ class AccessToken extends \EasyWeChat\Core\AccessToken
      */
     public function getToken($openid = '', $forceRefresh = false)
     {
-        $cacheKey = $this->getCacheKey().".".$openid;
-        $cached = $this->getCache()->fetch($cacheKey);
-        var_dump($cached);
-        if ($forceRefresh || empty($cached)) {
+//        $cacheKey = $this->getCacheKey().".".$openid;
+//        $cached = $this->getCache()->fetch($cacheKey);
+//        var_dump($cached);
+//        if ($forceRefresh || empty($cached)) {
             $token = $this->getTokenFromServer();
             echo 'access_token:';
             var_dump($token);
@@ -98,8 +98,8 @@ class AccessToken extends \EasyWeChat\Core\AccessToken
             $this->getCache()->save($cacheKey, $token['access_token'], $token['expires_in'] - 1500);
 
             return $token['access_token'];
-        }
-exit;
+//        }
+//exit;
         return $cached;
     }
 }
