@@ -89,8 +89,11 @@ class AccessToken extends \EasyWeChat\Core\AccessToken
     {
         $cacheKey = $this->prefix.$this->appId.$openid;
         $cached = $this->getCache()->fetch($cacheKey);
+        echo 'cachekey:'.$cacheKey.'</br>';
+        echo 'cached:'.$cached.'</br>';
         if ($forceRefresh || empty($cached)) {
             $token = $this->getTokenFromServer();
+            echo 'token:'.$token.'</br>';
             // XXX: T_T... 7200 - 1500
             $this->getCache()->save($cacheKey, $token['access_token'], $token['expires_in'] - 1500);
 
