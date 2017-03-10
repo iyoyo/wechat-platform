@@ -134,4 +134,14 @@ class PlatformService
         // 设置Token
         $api->setAccessToken($authorizer_token);
     }
+
+    /**
+     * 获取用户信息并保存
+     */
+    public function authorizeInfo($appid)
+    {
+        $authorzer = $this->component->getAuthorizerInfo($appid);
+
+        return $authorzer;
+    }
 }
