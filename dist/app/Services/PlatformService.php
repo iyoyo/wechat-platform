@@ -110,7 +110,7 @@ class PlatformService
 
         // 创建一个授权对象
         $authorizer = $this->repository->ensureAuthorizer($info['authorizer_appid']);
-        var_dump($authorizer);exit;
+
         // 刷新令牌主要用于公众号第三方平台获取和刷新已授权用户的access_token，只会在授权时刻提供，请妥善保存。 一旦丢失，只能让用户重新
         // 授权，才能再次拿到新的刷新令牌
         $authorizer->refresh_token = $info['authorizer_refresh_token'];
