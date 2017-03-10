@@ -106,7 +106,7 @@ class AccessToken extends \EasyWeChat\Core\AccessToken
      * @param $openid
      * @return string $this->cacheKey
      */
-    public function getCacheKey($openid)
+    public function getCacheKey($openid = '')
     {
         return $this->prefix.$this->appId.$openid;
     }
@@ -119,7 +119,7 @@ class AccessToken extends \EasyWeChat\Core\AccessToken
      * @param int $expires
      * @return $this
      */
-    public function setToken($openid, $token, $expires = 7200)
+    public function setToken($token, $expires = 7200, $openid = '')
     {
         $this->getCache()->save($this->getCacheKey($openid), $token, $expires - 1500);
 

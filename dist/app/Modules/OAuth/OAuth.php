@@ -81,7 +81,7 @@ class OAuth extends AbstractAPI
 
         // 覆盖缓存中的token
         $access_token = $this->createAccessToken($appid, $result['refresh_token']);
-        $access_token->setToken($result['openid'], $result['access_token'], $result['expires_in']);
+        $access_token->setToken($result['access_token'], $result['expires_in'], $result['openid']);
 
         return $result;
     }
