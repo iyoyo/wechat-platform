@@ -46,13 +46,4 @@ class PlatformController extends Controller
 
         return '授权成功！';
     }
-
-    /**
-     * 获取用户信息
-     */
-    public function authInfo(PlatformService $platform)
-    {
-        $appid = request('appid');
-        $authorizer = $platform->authorizeInfo($appid);
-    }
 }

@@ -26,9 +26,6 @@ Route::get('/oauth', 'OAuthController@oauth')->middleware(['middleware' => 'para
 // OAuth授权结果返回
 Route::get('/oauth/result/{appid}', 'OAuthController@result')->name('oauth_result');
 
-// 保存用户信息
-Route::get('/platform/auth/info', 'PlatformController@authInfo')->name('oauth_info');
-
 // 兼容旧版本URL
 //Route::any('/wecom/callback', 'WecomController@callback');
 //Route::any('/wecom/{appid}/callback', 'WecomController@appCallback');

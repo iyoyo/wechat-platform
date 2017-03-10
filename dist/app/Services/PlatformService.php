@@ -104,13 +104,24 @@ class PlatformService
         $result = $this->component->queryAuth($auth_code);
         $info = $result['authorization_info'];
 
+        // 获取公众号基本信息
+        $authorzer_info = $this->component->getAuthorizerInfo($info['authorizer_appid']);
+        $basic_info = $authorzer_info['authorizer_info'];
+
         // 创建一个授权对象
         $authorizer = $this->repository->ensureAuthorizer($info['authorizer_appid']);
-
+        var_dump($authorizer);exit;
         // 刷新令牌主要用于公众号第三方平台获取和刷新已授权用户的access_token，只会在授权时刻提供，请妥善保存。 一旦丢失，只能让用户重新
         // 授权，才能再次拿到新的刷新令牌
         $authorizer->refresh_token = $info['authorizer_refresh_token'];
         $authorizer->func_info = \GuzzleHttp\json_encode($info['func_info']);
+
+        // 基本信息
+        $authorizer->nick_name = urldecode($basic_info['nick_name']);
+        $authorizer->head_img = $basic_info['head_img'];
+        $authorizer->user_name = urldecode($basic_info['user_name']);
+        $authorizer->principal_name = urldecode($basic_info['principal_name']);
+        $authorizer->qrcode_url = $basic_info['qrcode_url'];
 
         // 保存到数据库
         $authorizer->save();
@@ -133,15 +144,5 @@ class PlatformService
 
         // 设置Token
         $api->setAccessToken($authorizer_token);
-    }
-
-    /**
-     * 获取用户信息并保存
-     */
-    public function authorizeInfo($appid)
-    {
-        $authorzer = $this->component->getAuthorizerInfo($appid);
-
-        return $authorzer;
     }
 }
