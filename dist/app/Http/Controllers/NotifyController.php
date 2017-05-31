@@ -38,6 +38,7 @@ class NotifyController extends Controller
             $message = new Text(['content' => str_replace("QUERY_AUTH_CODE:", "", $result).'_from_api']);
             $platform->authorizeAPI($staff, 'wx570bc396a51b8ff8');
             $result = $staff->message($message)->to("ozy4qt0Rsc9YJzR5nEeVAaTHg9DQ")->send();
+
         }
 
         return $result;

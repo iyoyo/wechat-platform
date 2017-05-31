@@ -43,4 +43,19 @@ class AuthorizerRepository
     {
         return Authorizer::where('client_id', $clientId)->get();
     }
+
+    public function updateCallBackUrl($clientId,$url)
+    {
+        return Authorizer::where('client_id',$clientId)->update(['call_back_url'=>$url]);
+    }
+
+    public function getCallBackUrl($appId){
+         $res=Authorizer::where('appid',$appId)->first(['call_back_url'])->toArray();
+         return $res['call_back_url'];
+
+    }
+
+
+
+
 }

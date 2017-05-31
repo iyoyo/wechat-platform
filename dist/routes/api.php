@@ -25,9 +25,15 @@ Route::any('/notify', 'NotifyController@notifyPlatform');
 Route::any('/notify/{appid}', 'NotifyController@notifyAccount');
 
 
+Route::group(['middleware' => ['auth_client']], function () {
+    Route::get('authorizers', 'AuthorizerController@index');
+});
+
+
+
 Route::group(['middleware' => ['auth_client', 'parameter']], function () {
 
-    Route::get('authorizers', 'AuthorizerController@index');
+//    Route::get('authorizers', 'AuthorizerController@index');
 
     // 获取OAuth用户信息
     Route::get('/oauth/user', 'OAuthController@userinfo');
@@ -71,4 +77,95 @@ Route::group(['middleware' => ['auth_client', 'parameter']], function () {
 
     //获取jsapi_ticket
     Route::get('/js/ticket', 'JsController@ticket');
+
+
+    Route::group(['prefix' => 'menu'], function ($router) {
+        Route::post('/store', 'MenuController@store')->name('admin.wechat.menu.store');
+
+
+    });
+
+    Route::group(['prefix' => 'medias'], function ($router) {
+        //上传图片
+        Route::post('/remote/image', 'MediasController@RemoteImage');
+        //上传图文素材内容图片
+        Route::post('/remote/article/image', 'MediasController@RemoteArticleImage');
+
+        //删除素材
+        Route::post('/delete', 'MediasController@delete');
+        //上传视频
+        Route::post('/remote/video', 'MediasController@RemoteVideo');
+        //上传图文
+        Route::post('/remote/article', 'MediasController@RemoteArticle');
+        // 获取素材
+        Route::post('/get', 'MediasController@get');
+
+        // 获取素材列表
+        Route::post('/lists', 'MediasController@getLists');
+        // 获取素材数量统计
+        Route::get('/stats', 'MediasController@stats');
+
+    });
+
+    // 粉丝管理
+    Route::group(['prefix' => 'fans'], function ($router) {
+        Route::get('/lists', 'FansController@lists');
+        Route::post('/get', 'FansController@get');
+
+        Route::get('/group/lists', 'FansGroupController@lists');
+        Route::post('/group/create', 'FansGroupController@create');
+        Route::post('/group/update', 'FansGroupController@update');
+        Route::post('/group/delete', 'FansGroupController@delete');
+
+        Route::post('/group/moveUsers', 'FansGroupController@moveUsers');
+    });
+
+    // 模板消息
+    Route::group(['prefix' => 'notice'], function ($router) {
+        Route::get('/get', 'NoticeController@getAll');
+        Route::post('/sendall', 'NoticeController@sendAll');
+    });
+
+    //二维码
+    Route::group(['prefix' => 'qrcode'], function ($router) {
+        // 创建临时
+        Route::post('/temporary', 'QRCodeController@storeTemporary');
+        // 创建永久
+        Route::post('/forever', 'QRCodeController@storeForever');
+        // 获取二维码网址
+        Route::post('/url', 'QRCodeController@getUrl');
+
+    });
+
+
+    //会员卡
+    Route::group(['prefix' => 'card'], function ($router) {
+
+        Route::get('/colors', 'CardController@getColors');
+        //获取会员卡券信息
+        Route::post('/getinfo', 'CardController@getCard');
+        //白名单
+        Route::post('/setTestWhitelist', 'CardController@setTestWhitelist');
+        //二维码
+        Route::post('/QRCode', 'CardController@QRCode');
+        // 更新会员卡券信息
+        Route::post('/update/member_card', 'CardController@updateCard');
+        // 获取会员信息
+        Route::post('/membership/get', 'CardController@membershipGet');
+        //更改会员卡库存
+        Route::post('/update/quantityt', 'CardController@updateQuantity');
+        //设置会员卡券失效
+        Route::post('/disable', 'CardController@disable');
+
+
+
+
+    });
+
+
+
+
+
+
+
 });
