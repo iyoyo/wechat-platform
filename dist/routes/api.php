@@ -97,6 +97,9 @@ Route::group(['middleware' => ['auth_client', 'parameter']], function () {
         Route::post('/remote/video', 'MediasController@RemoteVideo');
         //上传图文
         Route::post('/remote/article', 'MediasController@RemoteArticle');
+        // 修改图文
+        Route::post('/update/article', 'MediasController@updateArticle');
+
         // 获取素材
         Route::post('/get', 'MediasController@get');
 

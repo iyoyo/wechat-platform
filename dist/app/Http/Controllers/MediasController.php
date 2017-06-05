@@ -221,6 +221,36 @@ class MediasController extends Controller
     }
 
 
+    /**
+     * 修改图文素材
+     * @return string
+     */
+
+    public function updateArticle(){
+        // 参数
+        $appid = request('appid');
+
+        $data = request()->json()->all();
+
+        // 授权
+        $this->platform->authorizeAPI($this->material, $appid);
+
+        //调用接口
+
+        $article=new Article($data);
+
+        if(isset($data['index'])){
+            $result = $this->material->updateArticle($data['mediaId'],$article,$data['index']);
+        }else{
+            $result = $this->material->updateArticle($data['mediaId'],$article);
+        }
+        return json_encode($result);
+
+    }
+
+
+
+
 
 
 
