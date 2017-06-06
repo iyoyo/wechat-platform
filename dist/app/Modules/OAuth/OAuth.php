@@ -77,7 +77,13 @@ class OAuth extends AbstractAPI
         );
 
         // 调用
-        return $this->parseJSON('get', [self::API_TOKEN_GET, $params]);
+        $result = $this->parseJSON('get', [self::API_TOKEN_GET, $params]);
+
+        // 覆盖缓存中的token
+        $access_token = $this->createAccessToken($appid, $result['refresh_token']);
+        $access_token->setToken($result['access_token'], $result['expires_in'], $result['openid']);
+
+        return $result;
     }
 
     /**
@@ -103,7 +109,6 @@ class OAuth extends AbstractAPI
 
         // 调用
         return $this->parseJSON('get', [self::API_USERINFO, $params]);
-
     }
 
     /**

@@ -104,6 +104,10 @@ class PlatformService
         $result = $this->component->queryAuth($auth_code);
         $info = $result['authorization_info'];
 
+        // 获取公众号基本信息
+        $authorzer_info = $this->component->getAuthorizerInfo($info['authorizer_appid']);
+        $basic_info = $authorzer_info['authorizer_info'];
+
         // 创建一个授权对象
         $authorizer = $this->repository->ensureAuthorizer($info['authorizer_appid']);
 
@@ -111,6 +115,13 @@ class PlatformService
         // 授权，才能再次拿到新的刷新令牌
         $authorizer->refresh_token = $info['authorizer_refresh_token'];
         $authorizer->func_info = \GuzzleHttp\json_encode($info['func_info']);
+
+        // 基本信息
+        $authorizer->nick_name = urldecode($basic_info['nick_name']);
+        $authorizer->head_img = $basic_info['head_img'];
+        $authorizer->user_name = urldecode($basic_info['user_name']);
+        $authorizer->principal_name = urldecode($basic_info['principal_name']);
+        $authorizer->qrcode_url = $basic_info['qrcode_url'];
 
         // 保存到数据库
         $authorizer->save();

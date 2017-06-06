@@ -79,6 +79,9 @@ Route::group(['middleware' => ['auth_client', 'parameter']], function () {
     Route::get('/js/ticket', 'JsController@ticket');
 
 
+    Route::get('/js/config', 'JsController@config');
+
+
     Route::group(['prefix' => 'menu'], function ($router) {
         Route::post('/store', 'MenuController@store')->name('admin.wechat.menu.store');
 
@@ -171,4 +174,5 @@ Route::group(['middleware' => ['auth_client', 'parameter']], function () {
 
 
 
+s
 });

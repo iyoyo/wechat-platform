@@ -183,4 +183,5 @@ class Component extends AbstractAPI
             $component_token
         );
     }
+
 }

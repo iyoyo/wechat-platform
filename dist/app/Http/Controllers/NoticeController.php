@@ -23,7 +23,7 @@ class NoticeController extends Controller
         // 参数
         $appid = request('appid');
         $data = request()->json()->all();
-
+  
         // 授权
         $platform->authorizeAPI($notice, $appid);
 

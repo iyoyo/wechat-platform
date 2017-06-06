@@ -22,6 +22,7 @@ Route::get('/platform/auth/result', 'PlatformController@authResult')->name('comp
 
 // 引导用户进行OAuth授权
 Route::get('/oauth', 'OAuthController@oauth')->middleware(['middleware' => 'parameter']);
+
 // OAuth授权结果返回
 Route::get('/oauth/result/{appid}', 'OAuthController@result')->name('oauth_result');
 
