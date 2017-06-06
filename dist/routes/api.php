@@ -167,12 +167,4 @@ Route::group(['middleware' => ['auth_client', 'parameter']], function () {
 
 
     });
-
-
-
-
-
-
-
-s
 });
