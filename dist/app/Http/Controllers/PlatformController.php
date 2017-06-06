@@ -1,9 +1,9 @@
 <?php
 
-namespace Wechat\Http\Controllers;
+namespace iBrand\WechatPlatform\Http\Controllers;
 
 use Illuminate\Support\Facades\Redirect;
-use Wechat\Services\PlatformService;
+use iBrand\WechatPlatform\Services\PlatformService;
 
 class PlatformController extends Controller
 {

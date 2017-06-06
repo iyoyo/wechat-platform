@@ -1,8 +1,8 @@
 <?php
 
-namespace Wechat\Http\Controllers\Auth;
+namespace iBrand\WechatPlatform\Http\Controllers\Auth;
 
-use Wechat\Http\Controllers\Controller;
+use iBrand\WechatPlatform\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 
 class ForgotPasswordController extends Controller

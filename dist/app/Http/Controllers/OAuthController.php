@@ -1,9 +1,9 @@
 <?php
 
-namespace Wechat\Http\Controllers;
+namespace iBrand\WechatPlatform\Http\Controllers;
 
 use Illuminate\Support\Facades\Redirect;
-use Wechat\Services\OAuthService;
+use iBrand\WechatPlatform\Services\OAuthService;
 
 class OAuthController extends Controller
 {

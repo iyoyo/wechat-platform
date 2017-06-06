@@ -1,6 +1,6 @@
 <?php
 
-namespace Wechat\Providers;
+namespace iBrand\WechatPlatform\Providers;
 
 use EasyWeChat\Card\Card;
 use EasyWeChat\Core\AccessToken;
@@ -8,8 +8,8 @@ use EasyWeChat\Encryption\Encryptor;
 use EasyWeChat\Support\Log;
 use Illuminate\Support\ServiceProvider;
 use Overtrue\LaravelWechat\CacheBridge;
-use Wechat\Modules\Component\ComponentToken;
-use Wechat\Modules\Component\Guard;
+use iBrand\WechatPlatform\Modules\Component\ComponentToken;
+use iBrand\WechatPlatform\Modules\Component\Guard;
 
 class WechatServiceProvider extends ServiceProvider
 {

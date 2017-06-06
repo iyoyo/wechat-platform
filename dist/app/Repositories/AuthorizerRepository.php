@@ -6,9 +6,9 @@
  * Time: 09:58
  */
 
-namespace Wechat\Repositories;
+namespace iBrand\WechatPlatform\Repositories;
 
-use Wechat\Models\Authorizer;
+use iBrand\WechatPlatform\Models\Authorizer;
 
 /**
  * Authforizer 仓库

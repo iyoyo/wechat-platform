@@ -1,6 +1,6 @@
 <?php
 
-namespace Wechat\Models;
+namespace iBrand\WechatPlatform\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

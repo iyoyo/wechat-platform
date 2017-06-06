@@ -1,9 +1,9 @@
 <?php
-namespace Wechat\Services;
+namespace iBrand\WechatPlatform\Services;
 
 use \EasyWeChat\Server\Guard;
-use Wechat\Repositories\CardRepository;
-use Wechat\Repositories\AuthorizerRepository;
+use iBrand\WechatPlatform\Repositories\CardRepository;
+use iBrand\WechatPlatform\Repositories\AuthorizerRepository;
 use EasyWeChat\Message\Text;
 use EasyWeChat\Message\Image;
 use EasyWeChat\Message\Video;

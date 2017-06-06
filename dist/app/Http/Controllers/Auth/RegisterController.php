@@ -1,10 +1,10 @@
 <?php
 
-namespace Wechat\Http\Controllers\Auth;
+namespace iBrand\WechatPlatform\Http\Controllers\Auth;
 
-use Wechat\User;
+use iBrand\WechatPlatform\User;
 use Validator;
-use Wechat\Http\Controllers\Controller;
+use iBrand\WechatPlatform\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller

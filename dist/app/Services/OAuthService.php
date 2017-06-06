@@ -6,12 +6,12 @@
  * Time: 14:50
  */
 
-namespace Wechat\Services;
+namespace iBrand\WechatPlatform\Services;
 
-use Wechat\Modules\OAuth\AccessToken;
-use Wechat\Modules\OAuth\OAuth;
-use Wechat\Modules\Component\ComponentToken;
-use Wechat\Repositories\OAuthTokenRepository;
+use iBrand\WechatPlatform\Modules\OAuth\AccessToken;
+use iBrand\WechatPlatform\Modules\OAuth\OAuth;
+use iBrand\WechatPlatform\Modules\Component\ComponentToken;
+use iBrand\WechatPlatform\Repositories\OAuthTokenRepository;
 
 
 /**

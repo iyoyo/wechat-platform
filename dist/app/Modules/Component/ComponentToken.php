@@ -1,6 +1,6 @@
 <?php
 
-namespace Wechat\Modules\Component;
+namespace iBrand\WechatPlatform\Modules\Component;
 
 use EasyWeChat\Core\AccessToken;
 use EasyWeChat\Core\Exceptions\HttpException;

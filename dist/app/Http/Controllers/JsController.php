@@ -1,9 +1,9 @@
 <?php
 
-namespace Wechat\Http\Controllers;
+namespace iBrand\WechatPlatform\Http\Controllers;
 
 use EasyWeChat\Js\Js;
-use Wechat\Services\PlatformService;
+use iBrand\WechatPlatform\Services\PlatformService;
 
 /**
  * JSSDK

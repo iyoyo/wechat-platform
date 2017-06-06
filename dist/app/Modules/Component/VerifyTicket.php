@@ -1,6 +1,6 @@
 <?php
 
-namespace Wechat\Modules\Component;
+namespace iBrand\WechatPlatform\Modules\Component;
 
 use Illuminate\Support\Facades\Cache;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Wechat\Http\Middleware;
+namespace iBrand\WechatPlatform\Http\Middleware;
 
 use Closure;
 use Exception;

@@ -1,9 +1,9 @@
 <?php
 
-namespace Wechat\Http\Controllers;
+namespace iBrand\WechatPlatform\Http\Controllers;
 
 use EasyWeChat\Broadcast\Broadcast;
-use Wechat\Services\PlatformService;
+use iBrand\WechatPlatform\Services\PlatformService;
 
 
 /**

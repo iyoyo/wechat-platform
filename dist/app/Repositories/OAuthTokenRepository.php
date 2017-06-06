@@ -6,9 +6,9 @@
  * Time: 14:51
  */
 
-namespace Wechat\Repositories;
+namespace iBrand\WechatPlatform\Repositories;
 
-use Wechat\Models\Oauth2Token;
+use iBrand\WechatPlatform\Models\Oauth2Token;
 
 /**
  * OAuthToken 仓库

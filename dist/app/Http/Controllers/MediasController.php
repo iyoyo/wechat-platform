@@ -1,10 +1,10 @@
 <?php
 
-namespace Wechat\Http\Controllers;
+namespace iBrand\WechatPlatform\Http\Controllers;
 
 use EasyWeChat\Material\Material;
 use EasyWeChat\Message\Article;
-use Wechat\Services\PlatformService;
+use iBrand\WechatPlatform\Services\PlatformService;
 use Exception;
 /**
  * 菜单

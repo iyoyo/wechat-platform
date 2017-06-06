@@ -6,10 +6,10 @@
  * Time: 18:53
  */
 
-namespace Wechat\Http\Controllers;
+namespace iBrand\WechatPlatform\Http\Controllers;
 
 
-use Wechat\Repositories\AuthorizerRepository;
+use iBrand\WechatPlatform\Repositories\AuthorizerRepository;
 use Log;
 
 

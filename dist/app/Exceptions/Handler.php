@@ -1,6 +1,6 @@
 <?php
 
-namespace Wechat\Exceptions;
+namespace iBrand\WechatPlatform\Exceptions;
 
 use EasyWeChat\Core\Exceptions\HttpException;
 use Exception;

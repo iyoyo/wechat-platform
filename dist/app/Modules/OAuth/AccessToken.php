@@ -1,10 +1,10 @@
 <?php
 
-namespace Wechat\Modules\OAuth;
+namespace iBrand\WechatPlatform\Modules\OAuth;
 
 use Doctrine\Common\Cache\Cache;
 use EasyWeChat\Core\Exceptions\HttpException;
-use Wechat\Modules\Component\ComponentToken;
+use iBrand\WechatPlatform\Modules\Component\ComponentToken;
 
 
 class AccessToken extends \EasyWeChat\Core\AccessToken

@@ -1,6 +1,6 @@
 <?php
 
-namespace Wechat\Models;
+namespace iBrand\WechatPlatform\Models;
 
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Wechat\Providers;
+namespace iBrand\WechatPlatform\Providers;
 
 use Illuminate\Support\ServiceProvider;
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace Wechat\Http\Controllers;
+namespace iBrand\WechatPlatform\Http\Controllers;
 
-use Wechat\Services\MessageService;
-use Wechat\Services\PlatformService;
+use iBrand\WechatPlatform\Services\MessageService;
+use iBrand\WechatPlatform\Services\PlatformService;
 use EasyWeChat\Staff\Staff;
 use EasyWeChat\Message\Text;
 

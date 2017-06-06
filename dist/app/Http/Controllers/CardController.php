@@ -1,10 +1,10 @@
 <?php
 
-namespace Wechat\Http\Controllers;
+namespace iBrand\WechatPlatform\Http\Controllers;
 
 use EasyWeChat\Card\Card;
-use Wechat\Services\PlatformService;
-use Wechat\Services\MessageService;
+use iBrand\WechatPlatform\Services\PlatformService;
+use iBrand\WechatPlatform\Services\MessageService;
 use Exception;
 
 

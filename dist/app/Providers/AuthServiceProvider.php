@@ -1,6 +1,6 @@
 <?php
 
-namespace Wechat\Providers;
+namespace iBrand\WechatPlatform\Providers;
 
 use Laravel\Passport\Passport;
 use Illuminate\Support\Facades\Gate;
@@ -14,7 +14,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        'Wechat\Model' => 'Wechat\Policies\ModelPolicy',
+        'Wechat\Model' => 'iBrand\WechatPlatform\Policies\ModelPolicy',
     ];
 
     /**

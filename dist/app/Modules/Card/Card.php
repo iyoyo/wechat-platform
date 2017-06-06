@@ -1,8 +1,8 @@
 <?php
 
-namespace Wechat\Modules\Card;
+namespace iBrand\WechatPlatform\Modules\Card;
 
-use Wechat\Modules\OAuth\AccessToken;
+use iBrand\WechatPlatform\Modules\OAuth\AccessToken;
 
 
 class Card extends \EasyWeChat\Card\Card

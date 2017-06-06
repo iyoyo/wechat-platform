@@ -6,7 +6,7 @@
  * Time: 13:55
  */
 
-namespace Wechat\Modules\OAuth;
+namespace iBrand\WechatPlatform\Modules\OAuth;
 
 use Doctrine\Common\Cache\Cache;
 use EasyWeChat\Core\AbstractAPI;

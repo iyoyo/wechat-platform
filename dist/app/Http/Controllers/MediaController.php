@@ -1,8 +1,8 @@
 <?php
 
-namespace Wechat\Http\Controllers;
+namespace iBrand\WechatPlatform\Http\Controllers;
 
-use Wechat\Services\PlatformService;
+use iBrand\WechatPlatform\Services\PlatformService;
 use EasyWeChat\Material\Material;
 use EasyWeChat\Message\Article;
 use Exception;

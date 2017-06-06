@@ -1,6 +1,6 @@
 <?php
 
-namespace Wechat\Http;
+namespace iBrand\WechatPlatform\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -24,11 +24,11 @@ class Kernel extends HttpKernel
      */
     protected $middlewareGroups = [
         'web' => [
-            \Wechat\Http\Middleware\EncryptCookies::class,
+            \iBrand\WechatPlatform\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-            \Wechat\Http\Middleware\VerifyCsrfToken::class,
+            \iBrand\WechatPlatform\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
 
@@ -50,9 +50,9 @@ class Kernel extends HttpKernel
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
-        'guest' => \Wechat\Http\Middleware\RedirectIfAuthenticated::class,
+        'guest' => \iBrand\WechatPlatform\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'auth_client' => \Laravel\Passport\Http\Middleware\CheckClientCredentials::class,
-        'parameter' => \Wechat\Http\Middleware\ParameterVerify::class,
+        'parameter' => \iBrand\WechatPlatform\Http\Middleware\ParameterVerify::class,
     ];
 }

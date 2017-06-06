@@ -6,9 +6,9 @@
  * Time: 09:58
  */
 
-namespace Wechat\Repositories;
+namespace iBrand\WechatPlatform\Repositories;
 
-use Wechat\Models\Card;
+use iBrand\WechatPlatform\Models\Card;
 
 /**
  * Card 仓库

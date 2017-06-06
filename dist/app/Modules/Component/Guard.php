@@ -4,7 +4,7 @@
  * Guard.php.
  * 修改自 @EasyWeChat\Server\Guard, 用于处理微信第三方平台的服务端事件。
  */
-namespace Wechat\Modules\Component;
+namespace iBrand\WechatPlatform\Modules\Component;
 
 use EasyWeChat\Core\Exceptions\FaultException;
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;

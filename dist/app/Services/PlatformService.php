@@ -1,11 +1,11 @@
 <?php
-namespace Wechat\Services;
+namespace iBrand\WechatPlatform\Services;
 
 use EasyWeChat\Core\AbstractAPI;
-use Wechat\Modules\Component\Component;
-use Wechat\Modules\Component\Guard;
-use Wechat\Modules\Component\VerifyTicket;
-use Wechat\Repositories\AuthorizerRepository;
+use iBrand\WechatPlatform\Modules\Component\Component;
+use iBrand\WechatPlatform\Modules\Component\Guard;
+use iBrand\WechatPlatform\Modules\Component\VerifyTicket;
+use iBrand\WechatPlatform\Repositories\AuthorizerRepository;
 
 /**
  * 第三方平台服务
