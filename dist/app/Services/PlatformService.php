@@ -144,5 +144,6 @@ class PlatformService
 
         // 设置Token
         $api->setAccessToken($authorizer_token);
+
     }
 }

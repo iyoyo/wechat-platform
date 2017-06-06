@@ -36,7 +36,7 @@ class CardController extends Controller
     }
 
     /**
-     * 创建会员卡
+     * 创建货架
      * @param Card $card
      * @param PlatformService $platform
      */
@@ -63,6 +63,7 @@ class CardController extends Controller
     public function membershipActivate(Card $card, PlatformService $platform){
         // 参数
         $appid = request('appid');
+
         $data = request()->json()->all();
 
         // 授权
@@ -103,6 +104,7 @@ class CardController extends Controller
     public function delete(Card $card, PlatformService $platform){
         // 参数
         $appid = request('appid');
+
         $data = request()->json()->all();
 
         // 授权
@@ -134,4 +136,160 @@ class CardController extends Controller
 
         return json_encode($result);
     }
+
+
+    public function getColors(Card $card, PlatformService $platform){
+        // 参数
+        $appid = request('appid');
+        // 授权
+        $platform->authorizeAPI($card, $appid);
+
+        $data = request()->json()->all();
+
+        //调用接口
+        $result = $card->getColors();
+
+        return json_encode($result);
+    }
+
+
+
+//  查看会员卡详情
+    public function getCard(Card $card, PlatformService $platform){
+        // 参数
+        $appid = request('appid');
+
+        // 授权
+        $platform->authorizeAPI($card, $appid);
+
+        $data = request()->json()->all();
+
+        //调用接口
+        $result=$card->getCard($data['card_id']);
+
+        return json_encode($result);
+    }
+
+    //  设置测试白名单
+    public function setTestWhitelist(Card $card, PlatformService $platform){
+        // 参数
+        $appid = request('appid');
+
+        // 授权
+        $platform->authorizeAPI($card, $appid);
+
+        $data = request()->json()->all();
+
+        //调用接口
+        $result=$card->setTestWhitelist($data['openids']);
+
+        return json_encode($result);
+    }
+
+
+    // 创建二维码
+    public function QRCode(Card $card, PlatformService $platform){
+        // 参数
+        $appid = request('appid');
+
+        // 授权
+        $platform->authorizeAPI($card, $appid);
+
+        $data = request()->json()->all();
+
+        //调用接口
+        $result=$card->QRCode($data['cards']);
+
+        return json_encode($result);
+    }
+
+
+//    更改会员卡券信息
+    public function updateCard(Card $card, PlatformService $platform){
+        // 参数
+        $appid = request('appid');
+
+        // 授权
+        $platform->authorizeAPI($card, $appid);
+
+        $data = request()->json()->all();
+
+        //调用接口
+        $result=$card->update($data['card_id'],'member_card',$data['base_info'],$data['especial']);
+
+        return json_encode($result);
+    }
+
+
+   //拉取会员信息接口
+    public function membershipGet(Card $card, PlatformService $platform){
+        // 参数
+        $appid = request('appid');
+
+        $data = request()->json()->all();
+
+        // 授权
+        $platform->authorizeAPI($card, $appid);
+
+        // 调用接口
+        $result = $card->getMemberCardUser($data['card_id'],$data['code']);
+
+        // 返回json
+        return json_encode($result);
+    }
+
+
+    //更改库存接口
+    public function updateQuantity(Card $card, PlatformService $platform){
+        // 参数
+        $appid = request('appid');
+
+        $data = request()->json()->all();
+
+        // 授权
+        $platform->authorizeAPI($card, $appid);
+
+        // 调用接口
+        if($data['amount']>=0){
+            // 增加库存
+            $result = $card->increaseStock($data['card_id'],$data['amount']);
+        }
+
+        if($data['amount']<0){
+            // // 减少库存
+            $result = $card->reduceStock($data['card_id'],$data['amount']);
+        }
+
+        // 返回json
+        return json_encode($result);
+    }
+
+
+  //会员卡失效
+    public function disable(Card $card, PlatformService $platform){
+        // 参数
+        $appid = request('appid');
+
+        $data = request()->json()->all();
+
+        // 授权
+        $platform->authorizeAPI($card, $appid);
+
+        // 调用接口
+        $result = $card->disable($data['code'],$data['card_id']);
+
+        // 返回json
+        return json_encode($result);
+    }
+
+
+
+
+
+
+
+
+
+
+
 }

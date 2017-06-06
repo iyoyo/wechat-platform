@@ -10,6 +10,8 @@ namespace Wechat\Http\Controllers;
 
 
 use Wechat\Repositories\AuthorizerRepository;
+use Log;
+
 
 class AuthorizerController extends Controller
 {
@@ -23,7 +25,12 @@ class AuthorizerController extends Controller
 
     public function index()
     {
+        $call_back_url = request('call_back_url');
         if ($clientId = request('client_id')) {
+            $res=$this->repository->getAuthorizersByClient($clientId);
+            if(count($res)>0&&!empty($call_back_url)){
+                      $this->repository->updateCallBackUrl($clientId,$call_back_url);
+            }
             return $this->repository->getAuthorizersByClient($clientId);
         }
         return '';
