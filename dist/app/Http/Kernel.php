@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace iBrand\WechatPlatform\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;

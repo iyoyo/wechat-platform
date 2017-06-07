@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace iBrand\WechatPlatform\Providers;
 
 use Illuminate\Support\ServiceProvider;

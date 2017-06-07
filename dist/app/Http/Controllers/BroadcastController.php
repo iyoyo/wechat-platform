@@ -1,24 +1,27 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace iBrand\WechatPlatform\Http\Controllers;
 
 use EasyWeChat\Broadcast\Broadcast;
 use iBrand\WechatPlatform\Services\PlatformService;
 
-
 /**
- * 群发消息
- * @package Wechat\Http\Controllers
+ * 群发消息.
  */
 class BroadcastController extends Controller
 {
     /**
-     * 预览消息
+     * 预览消息.
      * @param Broadcast $broadcast
      * @param PlatformService $platform
      * @return string
      */
-    public function preview(Broadcast $broadcast, PlatformService $platform){
+    public function preview(Broadcast $broadcast, PlatformService $platform)
+    {
         // 参数
         $appid = request('appid');
         $data = request()->json()->all();
@@ -27,14 +30,14 @@ class BroadcastController extends Controller
         $platform->authorizeAPI($broadcast, $appid);
 
         //调用接口
-        switch ($data['type']){
-            case "news": case "image": case "video": case "voice":
+        switch ($data['type']) {
+            case 'news': case 'image': case 'video': case 'voice':
                 $result = $broadcast->preview($data['type'], $data['media_id'], $data['open_id']);
                 break;
-            case "text":
+            case 'text':
                 $result = $broadcast->preview($data['type'], $data['text'], $data['open_id']);
                 break;
-            case "card_id":
+            case 'card_id':
                 $result = $broadcast->preview($data['type'], $data['card_id'], $data['open_id']);
                 break;
         }
@@ -44,12 +47,13 @@ class BroadcastController extends Controller
     }
 
     /**
-     * 群发消息
+     * 群发消息.
      * @param Broadcast $broadcast
      * @param PlatformService $platform
      * @return string
      */
-    public function send(Broadcast $broadcast, PlatformService $platform){
+    public function send(Broadcast $broadcast, PlatformService $platform)
+    {
         // 参数
         $appid = request('appid');
         $data = request()->json()->all();
@@ -58,14 +62,14 @@ class BroadcastController extends Controller
         $platform->authorizeAPI($broadcast, $appid);
 
         //调用接口
-        switch ($data['type']){
-            case "news": case "image": case "video": case "voice":
+        switch ($data['type']) {
+            case 'news': case 'image': case 'video': case 'voice':
                 $result = $broadcast->send($data['type'], $data['media_id'], $data['open_id']);
                 break;
-            case "text":
+            case 'text':
                 $result = $broadcast->send($data['type'], $data['text'], $data['open_id']);
                 break;
-            case "card_id":
+            case 'card_id':
                 $result = $broadcast->send($data['type'], $data['card_id'], $data['open_id']);
                 break;
         }

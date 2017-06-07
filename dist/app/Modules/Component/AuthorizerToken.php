@@ -1,15 +1,17 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace iBrand\WechatPlatform\Modules\Component;
 
-use Carbon\Carbon;
 use EasyWeChat\Core\AccessToken;
-use EasyWeChat\Core\Exceptions\HttpException;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Config;
+use EasyWeChat\Core\Exceptions\HttpException;
 
 /**
- * 全局通用 authorizer_access_token
+ * 全局通用 authorizer_access_token.
  */
 class AuthorizerToken extends AccessToken
 {
@@ -23,14 +25,14 @@ class AuthorizerToken extends AccessToken
     protected $prefix = 'wechat.authorizer_access_token.';
 
     /**
-     * 授权方的刷新令牌
+     * 授权方的刷新令牌.
      *
      * @var string
      */
     protected $refresh_token;
 
     /**
-     * 第三方平台access_token
+     * 第三方平台access_token.
      *
      * @var string
      */
@@ -50,7 +52,7 @@ class AuthorizerToken extends AccessToken
         $this->component_token = $component_token;
         $cache = $component_token->getCache();
 
-        parent::__construct($appId, NULL, $cache);
+        parent::__construct($appId, null, $cache);
     }
 
     /**

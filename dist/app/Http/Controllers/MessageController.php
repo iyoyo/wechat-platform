@@ -1,33 +1,32 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace iBrand\WechatPlatform\Http\Controllers;
 
-use EasyWeChat\Menu\Menu;
-use iBrand\WechatPlatform\Services\PlatformService;
 use EasyWeChat\Message\Text;
+use iBrand\WechatPlatform\Services\PlatformService;
 
 /**
- * 消息回复
- * @package Wechat\Http\Controllers
+ * 消息回复.
  */
 class MessageController extends Controller
 {
-
     protected $text;
     protected $platform;
 
     public function __construct(
-        Text $text
-        ,PlatformService $platformService
-    )
-    {
+        Text $text, PlatformService $platformService
+    ) {
         $this->text = $text;
         $this->platform = $platformService;
     }
 
-
-    public function MessageText(){
-//        // 参数
+    public function MessageText()
+    {
+        //        // 参数
 //        $appid = request('appid');
 //
 //        // 授权
@@ -39,14 +38,4 @@ class MessageController extends Controller
 //        // 返回JSON
 //        return $result;
     }
-
-
-
-
-
-
-
-
-
-
 }

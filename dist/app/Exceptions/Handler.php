@@ -1,12 +1,13 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace iBrand\WechatPlatform\Exceptions;
 
-use EasyWeChat\Core\Exceptions\HttpException;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Http\Exception\HttpResponseException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -50,7 +51,7 @@ class Handler extends ExceptionHandler
         if ($exception instanceof Exception) {
             return response()->json(['errcode' => $exception->getCode(),
                 'file'=>$exception->getFile(),
-                'errmsg' => $exception->getMessage(), 'trace' => $exception->getTraceAsString()]);
+                'errmsg' => $exception->getMessage(), 'trace' => $exception->getTraceAsString(), ]);
         }
 
         return parent::render($request, $exception);

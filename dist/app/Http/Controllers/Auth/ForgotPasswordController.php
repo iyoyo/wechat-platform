@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace iBrand\WechatPlatform\Http\Controllers\Auth;
 
 use iBrand\WechatPlatform\Http\Controllers\Controller;

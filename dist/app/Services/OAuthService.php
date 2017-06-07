@@ -1,41 +1,35 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andrew
- * Date: 16/11/2
- * Time: 14:50
+
+/*
+ * add .styleci.yml
  */
 
 namespace iBrand\WechatPlatform\Services;
 
-use iBrand\WechatPlatform\Modules\OAuth\AccessToken;
 use iBrand\WechatPlatform\Modules\OAuth\OAuth;
-use iBrand\WechatPlatform\Modules\Component\ComponentToken;
 use iBrand\WechatPlatform\Repositories\OAuthTokenRepository;
-
 
 /**
  * 基于Component授权的OAuth服务
  *
  * Class OAuthService
- * @package Wechat\Services
  */
 class OAuthService
 {
     /**
-     * 仓库
+     * 仓库.
      * @var
      */
     protected $repository;
 
     /**
-     * 网页授权接口
+     * 网页授权接口.
      * @var
      */
     protected $oauth;
 
     /**
-     * 第三方平台接口
+     * 第三方平台接口.
      * @var Component
      */
     protected $component;
@@ -54,7 +48,7 @@ class OAuthService
     }
 
     /**
-     * 获取引导用户授权的URL
+     * 获取引导用户授权的URL.
      *
      * @param $appid
      * @param $callback
@@ -67,7 +61,7 @@ class OAuthService
     }
 
     /**
-     * 保存用户授权信息
+     * 保存用户授权信息.
      *
      * @param $appid
      * @param $code
@@ -90,7 +84,7 @@ class OAuthService
     }
 
     /**
-     * 获取用户信息
+     * 获取用户信息.
      *
      * @param $appid
      * @param $openid

@@ -1,26 +1,26 @@
 <?php
 
-/**
- * Guard.php.
- * 修改自 @EasyWeChat\Server\Guard, 用于处理微信第三方平台的服务端事件。
+/*
+ * add .styleci.yml
  */
+
 namespace iBrand\WechatPlatform\Modules\Component;
 
-use EasyWeChat\Core\Exceptions\FaultException;
-use EasyWeChat\Core\Exceptions\InvalidArgumentException;
-use EasyWeChat\Core\Exceptions\RuntimeException;
+use EasyWeChat\Support\Log;
+use EasyWeChat\Support\XML;
+use EasyWeChat\Message\Text;
+use EasyWeChat\Support\Collection;
 use EasyWeChat\Encryption\Encryptor;
 use EasyWeChat\Message\AbstractMessage;
 use EasyWeChat\Message\Raw as RawMessage;
-use EasyWeChat\Message\Text;
-use EasyWeChat\Support\Collection;
-use EasyWeChat\Support\Log;
-use EasyWeChat\Support\XML;
 use Symfony\Component\HttpFoundation\Request;
+use EasyWeChat\Core\Exceptions\FaultException;
 use Symfony\Component\HttpFoundation\Response;
+use EasyWeChat\Core\Exceptions\RuntimeException;
+use EasyWeChat\Core\Exceptions\InvalidArgumentException;
 
 /**
- * 第三方平台消息事件处理
+ * 第三方平台消息事件处理.
  */
 class Guard
 {
@@ -30,7 +30,7 @@ class Guard
     const SUCCESS_EMPTY_RESPONSE = 'success';
 
     /**
-     * InfoType
+     * InfoType.
      */
     const MSG_VERIFY_TICKET = 'component_verify_ticket';
     const MSG_UNAUTHORIZED = 'unauthorized';
@@ -136,7 +136,7 @@ class Guard
             $this->request->get('nonce'),
         ];
 
-        if (!$this->debug && $this->request->get('signature') !== $this->signature($params)) {
+        if (! $this->debug && $this->request->get('signature') !== $this->signature($params)) {
             throw new FaultException('Invalid request signature.', 400);
         }
     }
@@ -153,7 +153,7 @@ class Guard
      */
     public function setMessageHandler($callback = null)
     {
-        if (!is_callable($callback)) {
+        if (! is_callable($callback)) {
             throw new InvalidArgumentException('Argument #2 is not callable.');
         }
 
@@ -245,7 +245,7 @@ class Guard
             $message = new Text(['content' => $message]);
         }
 
-        if (!$this->isMessage($message)) {
+        if (! $this->isMessage($message)) {
             $messageType = gettype($message);
             throw new InvalidArgumentException("Invalid Message type .'{$messageType}'");
         }
@@ -275,7 +275,7 @@ class Guard
     {
         if (is_array($message)) {
             foreach ($message as $element) {
-                if (!is_subclass_of($element, AbstractMessage::class)) {
+                if (! is_subclass_of($element, AbstractMessage::class)) {
                     return false;
                 }
             }
@@ -297,7 +297,7 @@ class Guard
     {
         $message = $this->parseMessageFromRequest($this->request->getContent(false));
 
-        if (!is_array($message) || empty($message)) {
+        if (! is_array($message) || empty($message)) {
             throw new BadRequestException('Invalid request.');
         }
 
@@ -333,7 +333,7 @@ class Guard
     {
         $handler = $this->messageHandler;
 
-        if (!is_callable($handler)) {
+        if (! is_callable($handler)) {
             Log::debug('No handler enabled.');
 
             return;
@@ -357,7 +357,7 @@ class Guard
     protected function buildReply($message)
     {
         $base = [
-            'CreateTime' => time()
+            'CreateTime' => time(),
         ];
 
         $transformer = new Transformer();
@@ -394,7 +394,7 @@ class Guard
         $content = strval($content);
 
         if ($this->isSafeMode()) {
-            if (!$this->encryptor) {
+            if (! $this->encryptor) {
                 throw new RuntimeException('Safe mode Encryptor is necessary, please use Guard::setEncryptor(Encryptor $encryptor) set the encryptor instance.');
             }
 

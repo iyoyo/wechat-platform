@@ -1,11 +1,15 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace iBrand\WechatPlatform\Http\Controllers\Auth;
 
-use iBrand\WechatPlatform\User;
 use Validator;
-use iBrand\WechatPlatform\Http\Controllers\Controller;
+use iBrand\WechatPlatform\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use iBrand\WechatPlatform\Http\Controllers\Controller;
 
 class RegisterController extends Controller
 {

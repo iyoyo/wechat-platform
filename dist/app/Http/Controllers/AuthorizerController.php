@@ -1,17 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2016-12-12
- * Time: 18:53
+
+/*
+ * add .styleci.yml
  */
 
 namespace iBrand\WechatPlatform\Http\Controllers;
 
-
 use iBrand\WechatPlatform\Repositories\AuthorizerRepository;
-use Log;
-
 
 class AuthorizerController extends Controller
 {
@@ -27,12 +22,14 @@ class AuthorizerController extends Controller
     {
         $call_back_url = request('call_back_url');
         if ($clientId = request('client_id')) {
-            $res=$this->repository->getAuthorizersByClient($clientId);
-            if(count($res)>0&&!empty($call_back_url)){
-                      $this->repository->updateCallBackUrl($clientId,$call_back_url);
+            $res = $this->repository->getAuthorizersByClient($clientId);
+            if (count($res) > 0 && ! empty($call_back_url)) {
+                $this->repository->updateCallBackUrl($clientId, $call_back_url);
             }
+
             return $this->repository->getAuthorizersByClient($clientId);
         }
+
         return '';
     }
 }

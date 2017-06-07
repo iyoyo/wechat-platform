@@ -1,17 +1,20 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace iBrand\WechatPlatform\Modules\Component;
 
 use EasyWeChat\Core\AccessToken;
 use EasyWeChat\Core\Exceptions\HttpException;
 
 /**
- * 全局通用 component_access_token
+ * 全局通用 component_access_token.
  *
  * 2、获取第三方平台component_access_token
  * 第三方平台通过自己的component_appid（即在微信开放平台管理中心的第三方平台详情页中的AppID和AppSecret）和component_appsecret，以及
  * component_verify_ticket（每10分钟推送一次的安全ticket）来获取自己的接口调用凭据（component_access_token）
- *
  */
 class ComponentToken extends AccessToken
 {

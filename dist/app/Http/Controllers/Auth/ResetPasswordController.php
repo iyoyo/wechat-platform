@@ -1,9 +1,13 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace iBrand\WechatPlatform\Http\Controllers\Auth;
 
-use iBrand\WechatPlatform\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use iBrand\WechatPlatform\Http\Controllers\Controller;
 
 class ResetPasswordController extends Controller
 {

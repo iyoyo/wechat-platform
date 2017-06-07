@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 use Illuminate\Http\Request;
 
 /*
@@ -17,19 +21,14 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:api');
 
-
-
 // 平台授权事件接收URL
 Route::any('/notify', 'NotifyController@notifyPlatform');
 // 公众号消息与事件接收URL
 Route::any('/notify/{appid}', 'NotifyController@notifyAccount');
 
-
 Route::group(['middleware' => ['auth_client']], function () {
     Route::get('authorizers', 'AuthorizerController@index');
 });
-
-
 
 Route::group(['middleware' => ['auth_client', 'parameter']], function () {
 
@@ -78,14 +77,10 @@ Route::group(['middleware' => ['auth_client', 'parameter']], function () {
     //获取jsapi_ticket
     Route::get('/js/ticket', 'JsController@ticket');
 
-
     Route::get('/js/config', 'JsController@config');
-
 
     Route::group(['prefix' => 'menu'], function ($router) {
         Route::post('/store', 'MenuController@store')->name('admin.wechat.menu.store');
-
-
     });
 
     Route::group(['prefix' => 'medias'], function ($router) {
@@ -110,7 +105,6 @@ Route::group(['middleware' => ['auth_client', 'parameter']], function () {
         Route::post('/lists', 'MediasController@getLists');
         // 获取素材数量统计
         Route::get('/stats', 'MediasController@stats');
-
     });
 
     // 粉丝管理
@@ -140,13 +134,10 @@ Route::group(['middleware' => ['auth_client', 'parameter']], function () {
         Route::post('/forever', 'QRCodeController@storeForever');
         // 获取二维码网址
         Route::post('/url', 'QRCodeController@getUrl');
-
     });
-
 
     //会员卡
     Route::group(['prefix' => 'card'], function ($router) {
-
         Route::get('/colors', 'CardController@getColors');
         //获取会员卡券信息
         Route::post('/getinfo', 'CardController@getCard');
@@ -162,9 +153,5 @@ Route::group(['middleware' => ['auth_client', 'parameter']], function () {
         Route::post('/update/quantityt', 'CardController@updateQuantity');
         //设置会员卡券失效
         Route::post('/disable', 'CardController@disable');
-
-
-
-
     });
 });

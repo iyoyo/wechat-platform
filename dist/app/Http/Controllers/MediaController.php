@@ -1,81 +1,87 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace iBrand\WechatPlatform\Http\Controllers;
 
-use iBrand\WechatPlatform\Services\PlatformService;
-use EasyWeChat\Material\Material;
-use EasyWeChat\Message\Article;
 use Exception;
+use EasyWeChat\Message\Article;
+use EasyWeChat\Material\Material;
+use iBrand\WechatPlatform\Services\PlatformService;
 
 /**
- * 素材管理
- * @package Wechat\Http\Controllers
+ * 素材管理.
  */
 class MediaController extends Controller
 {
     /**
-     * 上传会员卡背景图
+     * 上传会员卡背景图.
      * @param Material $material
      * @param PlatformService $platform
      * @return string
      * @throws Exception
      */
-    public function uploadArticleImage(Material $material, PlatformService $platform){
+    public function uploadArticleImage(Material $material, PlatformService $platform)
+    {
         // 参数
         $appid = request('appid');
         $file = request()->file('image');
 
-        if (empty($file)){
-            throw new Exception( 'cannot not find file.', 2);
+        if (empty($file)) {
+            throw new Exception('cannot not find file.', 2);
         }
 
         // 授权
         $platform->authorizeAPI($material, $appid);
 
         //修改文件名
-        rename($file->getPathname(), "/tmp/".$file->getClientOriginalName());
+        rename($file->getPathname(), '/tmp/'.$file->getClientOriginalName());
 
         //调用接口
-        $result = $material->uploadArticleImage("/tmp/".$file->getClientOriginalName());
+        $result = $material->uploadArticleImage('/tmp/'.$file->getClientOriginalName());
 
         return json_encode($result);
     }
 
     /**
-     * 上传图片素材
+     * 上传图片素材.
      * @param Material $material
      * @param PlatformService $platform
      * @return string
      * @throws Exception
      */
-    public function uploadImage(Material $material, PlatformService $platform){
+    public function uploadImage(Material $material, PlatformService $platform)
+    {
         // 参数
         $appid = request('appid');
         $file = request()->file('image');
 
-        if (empty($file)){
-            throw new Exception( 'cannot not find file.', 2);
+        if (empty($file)) {
+            throw new Exception('cannot not find file.', 2);
         }
 
         // 授权
         $platform->authorizeAPI($material, $appid);
 
         //修改文件名
-        rename($file->getPathname(), "/tmp/".$file->getClientOriginalName());
+        rename($file->getPathname(), '/tmp/'.$file->getClientOriginalName());
 
         //调用接口
-        $result = $material->uploadImage("/tmp/".$file->getClientOriginalName());
+        $result = $material->uploadImage('/tmp/'.$file->getClientOriginalName());
 
         return json_encode($result);
     }
 
     /**
-     * 上传永久图文消息
+     * 上传永久图文消息.
      * @param Material $material
      * @param PlatformService $platform
      * @return string
      */
-    public function uploadArticle(Material $material, PlatformService $platform){
+    public function uploadArticle(Material $material, PlatformService $platform)
+    {
         // 参数
         $appid = request('appid');
         $data = request()->json()->all();

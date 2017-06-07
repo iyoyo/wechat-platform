@@ -1,13 +1,15 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace iBrand\WechatPlatform\Modules\Component;
 
 use Illuminate\Support\Facades\Cache;
 
 /**
- * 推送component_verify_ticket协议
- *
- * @package Breeze\Wecom
+ * 推送component_verify_ticket协议.
  */
 class VerifyTicket
 {

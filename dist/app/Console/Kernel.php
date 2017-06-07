@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace iBrand\WechatPlatform\Console;
 
 use Illuminate\Console\Scheduling\Schedule;

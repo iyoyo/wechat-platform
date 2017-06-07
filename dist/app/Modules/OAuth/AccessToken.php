@@ -1,11 +1,14 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace iBrand\WechatPlatform\Modules\OAuth;
 
 use Doctrine\Common\Cache\Cache;
 use EasyWeChat\Core\Exceptions\HttpException;
 use iBrand\WechatPlatform\Modules\Component\ComponentToken;
-
 
 class AccessToken extends \EasyWeChat\Core\AccessToken
 {
@@ -19,14 +22,14 @@ class AccessToken extends \EasyWeChat\Core\AccessToken
     protected $prefix = 'wechat.oauth_access_token.';
 
     /**
-     * 授权方的刷新令牌
+     * 授权方的刷新令牌.
      *
      * @var string
      */
     protected $refresh_token;
 
     /**
-     * component_access_token
+     * component_access_token.
      *
      * @var string
      */
@@ -45,7 +48,7 @@ class AccessToken extends \EasyWeChat\Core\AccessToken
         $this->component_token = $component_token;
         $cache = $component_token->getCache();
 
-        parent::__construct($appId, NULL, $cache);
+        parent::__construct($appId, null, $cache);
     }
 
     /**
@@ -112,7 +115,7 @@ class AccessToken extends \EasyWeChat\Core\AccessToken
     }
 
     /**
-     * 设置自定义 token
+     * 设置自定义 token.
      *
      * @param string $openid
      * @param string $token

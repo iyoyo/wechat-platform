@@ -1,22 +1,17 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andrew
- * Date: 16/11/2
- * Time: 13:55
+
+/*
+ * add .styleci.yml
  */
 
 namespace iBrand\WechatPlatform\Modules\OAuth;
 
-use Doctrine\Common\Cache\Cache;
 use EasyWeChat\Core\AbstractAPI;
 
 /**
  * 代公众号发起网页授权
  * 1. 获取code
- * 2. 通过code换取accesstoken
- *
- * @package Wechat\Models\OAuth
+ * 2. 通过code换取accesstoken.
  */
 class OAuth extends AbstractAPI
 {
@@ -28,7 +23,7 @@ class OAuth extends AbstractAPI
     /**
      * 第一步：请求CODE
      * 在确保微信公众账号拥有授权作用域（scope参数）的权限的前提下（一般而言，已微信认证的服务号拥有snsapi_base和snsapi_userinfo），
-     * 使用微信客户端打开以下链接（严格按照以下格式，包括顺序和大小写，并请将参数替换为实际内容）
+     * 使用微信客户端打开以下链接（严格按照以下格式，包括顺序和大小写，并请将参数替换为实际内容）.
      *
      * @param $appid
      * @param $callback
@@ -42,22 +37,22 @@ class OAuth extends AbstractAPI
         $component_token = $this->getAccessToken();
 
         // 参数
-        $params = array(
+        $params = [
             'appid'           => $appid,
             'redirect_uri'    => $callback,
             'response_type'   => 'code',
             'scope'           => $scope,
             'state'           => $state,
             'component_appid' => $component_token->getAppId(),
-        );
+        ];
 
         // 调用
-        return self::API_OAUTH_URL . '?' . http_build_query($params) . '#wechat_redirect';
+        return self::API_OAUTH_URL.'?'.http_build_query($params).'#wechat_redirect';
     }
 
     /**
      * 第二步：通过code换取access_token
-     * 获取第一步的code后，请求以下链接获取access_token：
+     * 获取第一步的code后，请求以下链接获取access_token：.
      *
      * @param $appid
      * @param $code
@@ -69,12 +64,12 @@ class OAuth extends AbstractAPI
         $component_token = $this->getAccessToken();
 
         // 参数
-        $params = array(
+        $params = [
             'appid'           => $appid,
             'code'            => $code,
             'grant_type'      => 'authorization_code',
             'component_appid' => $component_token->getAppId(),
-        );
+        ];
 
         // 调用
         $result = $this->parseJSON('get', [self::API_TOKEN_GET, $params]);
@@ -87,7 +82,7 @@ class OAuth extends AbstractAPI
     }
 
     /**
-     * 第四步：通过网页授权access_token获取用户基本信息（需授权作用域为snsapi_userinfo）
+     * 第四步：通过网页授权access_token获取用户基本信息（需授权作用域为snsapi_userinfo）.
      *
      * @param $appid 公众号appid
      * @param $refresh_token 用户授权时获取的refresh_token
