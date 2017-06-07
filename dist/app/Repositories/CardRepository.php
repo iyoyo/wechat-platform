@@ -1,9 +1,7 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andrew
- * Date: 16/11/2
- * Time: 09:58
+
+/*
+ * add .styleci.yml
  */
 
 namespace iBrand\WechatPlatform\Repositories;
@@ -11,31 +9,32 @@ namespace iBrand\WechatPlatform\Repositories;
 use iBrand\WechatPlatform\Models\Card;
 
 /**
- * Card 仓库
- * @package Wechat\Repositories
+ * Card 仓库.
  */
 class CardRepository
 {
     /**
-     * 保存Card
+     * 保存Card.
      * @param $appid
      * @param $card_id
      * @param $code
      * @param $openid
      * @return mixed
      */
-    public function createCard($appid, $card_id, $code, $openid){
+    public function createCard($appid, $card_id, $code, $openid)
+    {
         return Card::firstOrNew(['appid' => $appid, 'card_id' => $card_id, 'code' => $code, 'openid' => $openid]);
     }
 
     /**
-     * 获取code
+     * 获取code.
      * @param $appid
      * @param $card_id
      * @param $openid
      * @return mixed
      */
-    public function getCode($appid, $card_id, $openid){
+    public function getCode($appid, $card_id, $openid)
+    {
         return Card::where('appid', $appid)
             ->where('card_id', $card_id)
             ->where('openid', $openid)
@@ -49,7 +48,8 @@ class CardRepository
      * @param $code
      * @param $openid
      */
-    public function deleteCard($appid, $card_id, $code, $openid){
+    public function deleteCard($appid, $card_id, $code, $openid)
+    {
         Card::where('appid', $appid)
             ->where('card_id', $card_id)
             ->where('code', $code)

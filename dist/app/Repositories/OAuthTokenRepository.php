@@ -1,9 +1,7 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andrew
- * Date: 16/11/2
- * Time: 14:51
+
+/*
+ * add .styleci.yml
  */
 
 namespace iBrand\WechatPlatform\Repositories;
@@ -11,13 +9,12 @@ namespace iBrand\WechatPlatform\Repositories;
 use iBrand\WechatPlatform\Models\Oauth2Token;
 
 /**
- * OAuthToken 仓库
- * @package Wechat\Repositories
+ * OAuthToken 仓库.
  */
 class OAuthTokenRepository
 {
     /**
-     * 获取授权TOKEN
+     * 获取授权TOKEN.
      *
      * @param $appid
      * @param $openid
@@ -27,11 +24,12 @@ class OAuthTokenRepository
         $oauth_token = Oauth2Token::where('appid', $appid)
             ->where('openid', $openid)
             ->first();
+
         return $oauth_token;
     }
 
     /**
-     * 获取APP授权, 不存在则创建一个
+     * 获取APP授权, 不存在则创建一个.
      *
      * @param $appid
      */

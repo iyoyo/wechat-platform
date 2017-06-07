@@ -1,13 +1,16 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace iBrand\WechatPlatform\Http\Controllers;
 
 use EasyWeChat\User\Group;
 use iBrand\WechatPlatform\Services\PlatformService;
 
 /**
- * 粉丝分组
- * @package Wechat\Http\Controllers
+ * 粉丝分组.
  */
 class FansGroupController extends Controller
 {
@@ -16,21 +19,18 @@ class FansGroupController extends Controller
     protected $platform;
 
     public function __construct(
-        Group $group
-        ,PlatformService $platformService
-    )
-    {
-        $this->group=$group;
+        Group $group, PlatformService $platformService
+    ) {
+        $this->group = $group;
         $this->platform = $platformService;
     }
 
-
     /**
-     * 获取所有分组
+     * 获取所有分组.
      * @return \EasyWeChat\Support\Collection
      */
-
-    public function lists(){
+    public function lists()
+    {
         // 参数
         $appid = request('appid');
 
@@ -45,12 +45,11 @@ class FansGroupController extends Controller
     }
 
     /**
-     * 创建分组
+     * 创建分组.
      * @return \EasyWeChat\Support\Collection
      */
-
-
-    public function create(){
+    public function create()
+    {
         // 参数
         $appid = request('appid');
 
@@ -67,12 +66,11 @@ class FansGroupController extends Controller
     }
 
     /**
-     * 修改分组
+     * 修改分组.
      * @return \EasyWeChat\Support\Collection
      */
-
-
-    public function update(){
+    public function update()
+    {
         // 参数
         $appid = request('appid');
 
@@ -82,19 +80,18 @@ class FansGroupController extends Controller
         $this->platform->authorizeAPI($this->group, $appid);
 
         // 调用接口
-        $result = $this->group->update($data['groupid'],$data['name']);
+        $result = $this->group->update($data['groupid'], $data['name']);
 
         // 返回JSON
         return $result;
     }
 
     /**
-     * 删除分组
+     * 删除分组.
      * @return \EasyWeChat\Support\Collection
      */
-
-
-    public function delete(){
+    public function delete()
+    {
         // 参数
         $appid = request('appid');
 
@@ -110,14 +107,12 @@ class FansGroupController extends Controller
         return $result;
     }
 
-
     /**
-     * 移动用户到指定分组
+     * 移动用户到指定分组.
      * @return \EasyWeChat\Support\Collection
      */
-
-
-    public function moveUsers(){
+    public function moveUsers()
+    {
         // 参数
         $appid = request('appid');
 
@@ -127,14 +122,9 @@ class FansGroupController extends Controller
         $this->platform->authorizeAPI($this->group, $appid);
 
         // 调用接口
-        $result = $this->group->moveUsers($data['openids'],$data['groupid']);
+        $result = $this->group->moveUsers($data['openids'], $data['groupid']);
 
         // 返回JSON
         return $result;
     }
-
-
-
-
-
 }

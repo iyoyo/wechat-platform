@@ -1,41 +1,36 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace iBrand\WechatPlatform\Http\Controllers;
 
-use EasyWeChat\Material\Material;
 use EasyWeChat\Message\Article;
+use EasyWeChat\Material\Material;
 use iBrand\WechatPlatform\Services\PlatformService;
-use Exception;
+
 /**
- * 菜单
- * @package Wechat\Http\Controllers
+ * 菜单.
  */
 class MediasController extends Controller
 {
-
     protected $material;
     protected $platform;
 
-
     public function __construct(
-        Material $material
-        ,PlatformService $platformService
+        Material $material, PlatformService $platformService
 
-
-    )
-    {
-
+    ) {
         $this->material = $material;
         $this->platform = $platformService;
-
     }
 
-
     /**
-     * 上传图片素材
+     * 上传图片素材.
      */
-    public function RemoteImage(){
-
+    public function RemoteImage()
+    {
         $appid = request('appid');
 
         $file = request()->file('image');
@@ -44,20 +39,19 @@ class MediasController extends Controller
         $this->platform->authorizeAPI($this->material, $appid);
 
         //修改文件名
-        rename($file->getPathname(), "/tmp/".$file->getClientOriginalName());
+        rename($file->getPathname(), '/tmp/'.$file->getClientOriginalName());
 
         //调用接口
-        $result = $this->material->uploadImage("/tmp/".$file->getClientOriginalName());
+        $result = $this->material->uploadImage('/tmp/'.$file->getClientOriginalName());
 
         return json_encode($result);
     }
 
-
     /**
-     * 上传图文内容素材
+     * 上传图文内容素材.
      */
-    public function RemoteArticleImage(){
-
+    public function RemoteArticleImage()
+    {
         $appid = request('appid');
 
         $file = request()->file('image');
@@ -66,56 +60,49 @@ class MediasController extends Controller
         $this->platform->authorizeAPI($this->material, $appid);
 
         //修改文件名
-        rename($file->getPathname(), "/tmp/".$file->getClientOriginalName());
+        rename($file->getPathname(), '/tmp/'.$file->getClientOriginalName());
 
         //调用接口
-        $result = $this->material->uploadArticleImage("/tmp/".$file->getClientOriginalName());
+        $result = $this->material->uploadArticleImage('/tmp/'.$file->getClientOriginalName());
 
         return json_encode($result->url);
     }
 
-
-
-
-
-
     /**
-     * 上传视频素材
+     * 上传视频素材.
      */
-    public function RemoteVideo(){
-
+    public function RemoteVideo()
+    {
         $appid = request('appid');
 
         $file = request()->file('video');
 
         $title = request('title');
 
-        $description= request('description');
+        $description = request('description');
 
         // 授权
         $this->platform->authorizeAPI($this->material, $appid);
 
         //修改文件名
-        rename($file->getPathname(), "/tmp/".$file->getClientOriginalName());
+        rename($file->getPathname(), '/tmp/'.$file->getClientOriginalName());
 
         //调用接口
-        $result = $this->material->uploadVideo("/tmp/".$file->getClientOriginalName(),$title,$description);
-
+        $result = $this->material->uploadVideo('/tmp/'.$file->getClientOriginalName(), $title, $description);
 
         return json_encode($result);
     }
 
-
     /**
-     * 删除素材
+     * 删除素材.
      */
-    public function delete(){
-
+    public function delete()
+    {
         $appid = request('appid');
 
         $data = request()->json()->all();
 
-        $mediaId=$data['mediaId'];
+        $mediaId = $data['mediaId'];
 
         // 授权
         $this->platform->authorizeAPI($this->material, $appid);
@@ -126,24 +113,24 @@ class MediasController extends Controller
         return json_encode($result);
     }
 
-
     /**
-     * 上传永久图文消息
+     * 上传永久图文消息.
      * @return string
      */
-    public function RemoteArticle(){
+    public function RemoteArticle()
+    {
         // 参数
         $appid = request('appid');
 
         $data = request()->json()->all();
 
-        $article=[];
+        $article = [];
 
-        if(count($data) == count($data,1)){
-            $article=new Article($data);
-        }else{
-            foreach ($data as $item){
-                $article[]=new Article($item);
+        if (count($data) == count($data, 1)) {
+            $article = new Article($data);
+        } else {
+            foreach ($data as $item) {
+                $article[] = new Article($item);
             }
         }
 
@@ -155,12 +142,12 @@ class MediasController extends Controller
         return json_encode($result);
     }
 
-
-    /**
-     * 获取素材通过mediaId
-     * @return string
-     */
-        public function get(){
+        /**
+         * 获取素材通过mediaId.
+         * @return string
+         */
+        public function get()
+        {
             // 参数
             $appid = request('appid');
 
@@ -173,16 +160,14 @@ class MediasController extends Controller
             $result = $this->material->get($data['mediaId']);
 
             return json_encode($result);
-
         }
 
-
     /**
-     * 获取永久素材列表
+     * 获取永久素材列表.
      * @return string
      */
-
-    public function getLists(){
+    public function getLists()
+    {
         // 参数
         $appid = request('appid');
 
@@ -192,19 +177,17 @@ class MediasController extends Controller
         $this->platform->authorizeAPI($this->material, $appid);
 
         //调用接口
-        $result = $this->material->lists($data['type'],$data['offset'],$data['count']);
+        $result = $this->material->lists($data['type'], $data['offset'], $data['count']);
 
         return json_encode($result);
-
     }
 
-
     /**
-     * 获取素材计数
+     * 获取素材计数.
      * @return string
      */
-
-    public function stats(){
+    public function stats()
+    {
         // 参数
         $appid = request('appid');
 
@@ -217,16 +200,14 @@ class MediasController extends Controller
         $result = $this->material->stats();
 
         return json_encode($result);
-
     }
 
-
     /**
-     * 修改图文素材
+     * 修改图文素材.
      * @return string
      */
-
-    public function updateArticle(){
+    public function updateArticle()
+    {
         // 参数
         $appid = request('appid');
 
@@ -237,30 +218,14 @@ class MediasController extends Controller
 
         //调用接口
 
-        $article=new Article($data);
+        $article = new Article($data);
 
-        if(isset($data['index'])){
-            $result = $this->material->updateArticle($data['mediaId'],$article,$data['index']);
-        }else{
-            $result = $this->material->updateArticle($data['mediaId'],$article);
+        if (isset($data['index'])) {
+            $result = $this->material->updateArticle($data['mediaId'], $article, $data['index']);
+        } else {
+            $result = $this->material->updateArticle($data['mediaId'], $article);
         }
+
         return json_encode($result);
-
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
 {
     /**

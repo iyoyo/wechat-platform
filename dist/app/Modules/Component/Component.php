@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace iBrand\WechatPlatform\Modules\Component;
 
 use Carbon\Carbon;
@@ -28,7 +32,6 @@ use Illuminate\Support\Facades\Cache;
  *
  * 参考:
  * https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1453779503&token=&lang=zh_CN
- *
  */
 class Component extends AbstractAPI
 {
@@ -42,7 +45,7 @@ class Component extends AbstractAPI
     const CACHE_PRE_AUTH_CODE = 'wechat.pre_auth_code';
 
     /**
-     * 第三方平台appid
+     * 第三方平台appid.
      *
      * @var string
      */
@@ -59,7 +62,7 @@ class Component extends AbstractAPI
     }
 
     /**
-     * 引入用户进入授权页
+     * 引入用户进入授权页.
      *
      * @param $callback
      * @return string
@@ -73,7 +76,7 @@ class Component extends AbstractAPI
     }
 
     /**
-     * 3、获取预授权码pre_auth_code
+     * 3、获取预授权码pre_auth_code.
      *
      * @return mixed
      */
@@ -98,39 +101,39 @@ class Component extends AbstractAPI
     }
 
     /**
-     * 4、使用授权码换取公众号的接口调用凭据和授权信息
+     * 4、使用授权码换取公众号的接口调用凭据和授权信息.
      *
      * @param $authorization_code
      * @return mixed
      */
     public function queryAuth($authorization_code)
     {
-        $params = array(
+        $params = [
             'component_appid'    => $this->component_appid,
             'authorization_code' => $authorization_code,
-        );
+        ];
 
         return $this->parseJSON('json', [self::API_QUERY_AUTH, $params]);
     }
 
     /**
-     * 6、获取授权方的公众号帐号基本信息
+     * 6、获取授权方的公众号帐号基本信息.
      *
      * @param $authorizer_appid
      * @return mixed
      */
     public function getAuthorizerInfo($authorizer_appid)
     {
-        $params = array(
+        $params = [
             'component_appid'  => $this->component_appid,
             'authorizer_appid' => $authorizer_appid,
-        );
+        ];
 
         return $this->parseJSON('json', [self::API_GET_AUTHORIZER_INFO, $params]);
     }
 
     /**
-     * 7、获取授权方的选项设置信息
+     * 7、获取授权方的选项设置信息.
      *
      * @param $authorizer_appid
      * @param $option_name
@@ -138,17 +141,17 @@ class Component extends AbstractAPI
      */
     public function getAuthorizerOption($authorizer_appid, $option_name)
     {
-        $params = array(
+        $params = [
             'component_appid'  => $this->component_appid,
             'authorizer_appid' => $authorizer_appid,
             'option_name'      => $option_name,
-        );
+        ];
 
         return $this->parseJSON('json', [self::API_GET_AUTHORIZER_OPTION, $params]);
     }
 
     /**
-     * 8、设置授权方的选项信息
+     * 8、设置授权方的选项信息.
      *
      * @param $authorizer_appid
      * @param $option_name
@@ -157,12 +160,12 @@ class Component extends AbstractAPI
      */
     public function setAuthorizerOption($authorizer_appid, $option_name, $option_value)
     {
-        $params = array(
+        $params = [
             'component_appid'  => $this->component_appid,
             'authorizer_appid' => $authorizer_appid,
             'option_name'      => $option_name,
             'option_value'     => $option_value,
-        );
+        ];
 
         return $this->parseJSON('json', [self::API_SET_AUTHORIZER_OPTION, $params]);
     }
@@ -175,7 +178,7 @@ class Component extends AbstractAPI
      */
     public function createAuthorizerToken($appid, $refresh_token)
     {
-        $component_token =  $this->getAccessToken();
+        $component_token = $this->getAccessToken();
 
         return new AuthorizerToken(
             $appid,
@@ -183,5 +186,4 @@ class Component extends AbstractAPI
             $component_token
         );
     }
-
 }

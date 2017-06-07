@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace iBrand\WechatPlatform\Http\Controllers;
 
 use Illuminate\Support\Facades\Redirect;
@@ -8,7 +12,7 @@ use iBrand\WechatPlatform\Services\PlatformService;
 class PlatformController extends Controller
 {
     /**
-     * 引导用户进入授权页
+     * 引导用户进入授权页.
      * @param PlatformService $platform
      * @return mixed
      */
@@ -17,8 +21,8 @@ class PlatformController extends Controller
         $clientId = request('client_id');
         $redirectUrl = request('redirect_url');
 
-        if ($clientId AND $redirectUrl) {
-            \Cache::put($clientId, $redirectUrl,10);
+        if ($clientId and $redirectUrl) {
+            \Cache::put($clientId, $redirectUrl, 10);
         }
 
         $callback = route('component_auth_result', ['client_id' => $clientId]);
@@ -29,7 +33,7 @@ class PlatformController extends Controller
     }
 
     /**
-     * 保存授权信息
+     * 保存授权信息.
      * @param PlatformService $platform
      * @return string
      * @internal param Request $request
@@ -38,9 +42,10 @@ class PlatformController extends Controller
     {
         $auth_code = request('auth_code');
         $authorizer = $platform->saveAuthorization($auth_code);
-        if ($clientId = request('client_id') AND cache($clientId)) {
+        if ($clientId = request('client_id') and cache($clientId)) {
             $authorizer->client_id = $clientId;
             $authorizer->save();
+
             return redirect(cache($clientId));
         }
 

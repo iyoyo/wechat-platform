@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder

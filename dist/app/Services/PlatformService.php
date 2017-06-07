@@ -1,32 +1,36 @@
 <?php
+
+/*
+ * add .styleci.yml
+ */
+
 namespace iBrand\WechatPlatform\Services;
 
 use EasyWeChat\Core\AbstractAPI;
-use iBrand\WechatPlatform\Modules\Component\Component;
 use iBrand\WechatPlatform\Modules\Component\Guard;
+use iBrand\WechatPlatform\Modules\Component\Component;
 use iBrand\WechatPlatform\Modules\Component\VerifyTicket;
 use iBrand\WechatPlatform\Repositories\AuthorizerRepository;
 
 /**
  * 第三方平台服务
- * @package Wechat\Services
  */
 class PlatformService
 {
     /**
-     * 仓库
+     * 仓库.
      * @var
      */
     protected $repository;
 
     /**
-     * 第三方平台接口
+     * 第三方平台接口.
      * @var Component
      */
     protected $component;
 
     /**
-     * 第三方平台事件接口
+     * 第三方平台事件接口.
      * @var
      */
     protected $server;
@@ -48,7 +52,7 @@ class PlatformService
     }
 
     /**
-     * 平台授权事件处理
+     * 平台授权事件处理.
      *
      * @return string
      */
@@ -68,7 +72,7 @@ class PlatformService
                 /*
                  * 保存全网发布测试推送过来的AuthorizationCode
                  */
-                case "authorized":
+                case 'authorized':
                     $this->saveAuthorization($message['AuthorizationCode']);
                     break;
             }
@@ -81,7 +85,7 @@ class PlatformService
      * 步骤2：引入用户进入授权页
      * 第三方平台方可以在自己的网站:中放置“微信公众号授权”的入口，引导公众号运营者进入授权页。授权页网址为
      * https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=xxxx&pre_auth_code=xxxxx&redirect_uri=xxxx，
-     * 该网址中第三方平台方需要提供第三方平台方appid、预授权码和回调URI
+     * 该网址中第三方平台方需要提供第三方平台方appid、预授权码和回调URI.
      *
      * @param $callback
      * @return mixed
@@ -94,7 +98,7 @@ class PlatformService
     /**
      * 步骤4：授权后回调URI，得到授权码（authorization_code）和过期时间
      * 授权流程完成后，授权页会自动跳转进入回调URI，并在URL参数中返回授权码和过期时间(redirect_url?auth_code=xxx&expires_in=600)
-     * 在得到授权码后，第三方平台方可以使用授权码换取授权公众号的接口调用凭据（authorizer_access_token，也简称为令牌）
+     * 在得到授权码后，第三方平台方可以使用授权码换取授权公众号的接口调用凭据（authorizer_access_token，也简称为令牌）.
      *
      * @param $auth_code
      */
@@ -131,7 +135,7 @@ class PlatformService
 
     /**
      * 给API对象授权
-     * 步骤5：利用授权码调用用户公众号的相关API
+     * 步骤5：利用授权码调用用户公众号的相关API.
      *
      * @param $appid
      * @param AbstractAPI $api
@@ -144,6 +148,5 @@ class PlatformService
 
         // 设置Token
         $api->setAccessToken($authorizer_token);
-
     }
 }

@@ -1,13 +1,16 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace iBrand\WechatPlatform\Http\Controllers;
 
 use EasyWeChat\User\User;
 use iBrand\WechatPlatform\Services\PlatformService;
 
 /**
- * 粉丝
- * @package Wechat\Http\Controllers
+ * 粉丝.
  */
 class FansController extends Controller
 {
@@ -16,21 +19,18 @@ class FansController extends Controller
     protected $platform;
 
     public function __construct(
-        User $user
-        ,PlatformService $platformService
-    )
-    {
-        $this->user=$user;
+        User $user, PlatformService $platformService
+    ) {
+        $this->user = $user;
         $this->platform = $platformService;
     }
 
-
     /**
-     * 获取粉丝列表
+     * 获取粉丝列表.
      * @return \EasyWeChat\Support\Collection
      */
-
-    public function lists(){
+    public function lists()
+    {
         // 参数
         $appid = request('appid');
 
@@ -47,12 +47,11 @@ class FansController extends Controller
     }
 
     /**
-     * 获取粉丝信息
+     * 获取粉丝信息.
      * @return \EasyWeChat\Support\Collection
      */
-
-
-    public function get(){
+    public function get()
+    {
         // 参数
         $appid = request('appid');
 
@@ -67,11 +66,4 @@ class FansController extends Controller
         // 返回JSON
         return $result;
     }
-
-
-
-
-
-
-
 }

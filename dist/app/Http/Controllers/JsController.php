@@ -1,18 +1,21 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace iBrand\WechatPlatform\Http\Controllers;
 
 use EasyWeChat\Js\Js;
 use iBrand\WechatPlatform\Services\PlatformService;
 
 /**
- * JSSDK
- * @package Wechat\Http\Controllers
+ * JSSDK.
  */
-
 class JsController extends Controller
 {
-    public function ticket(Js $js, PlatformService $platform){
+    public function ticket(Js $js, PlatformService $platform)
+    {
         // 参数
         $appid = request('appid');
 
@@ -38,9 +41,10 @@ class JsController extends Controller
 
         $js->setUrl(request('url'));
 
-        if($method = request('method') AND is_array($method)){
+        if ($method = request('method') and is_array($method)) {
             return json_encode($js->config($method));
         }
-        return json_encode($js->config(array()));
+
+        return json_encode($js->config([]));
     }
 }
