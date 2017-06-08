@@ -37,7 +37,7 @@ server {
   index index.html index.htm index.php;
   root /data/wwwroot/wechat-platform/dist/public;
 
-  include /usr/local/nginx/conf/rewrite/laravel.conf;
+  include /usr/local/nginx/conf/rewrite/laravel.conf;  # laravel 重定向配置
   
   #error_page 404 /404.html;
   #error_page 502 /502.html;
