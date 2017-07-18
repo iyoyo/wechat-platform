@@ -218,12 +218,12 @@ class MediasController extends Controller
 
         //调用接口
 
-        $article = new Article($data);
-
         if (isset($data['index'])) {
-            $result = $this->material->updateArticle($data['mediaId'], $article, $data['index']);
+            
+            $result = $this->material->updateArticle($data['mediaId'], $data['data'], $data['index']);
         } else {
-            $result = $this->material->updateArticle($data['mediaId'], $article);
+            $result = $this->material->updateArticle($data['mediaId'], $data['data']);
+
         }
 
         return json_encode($result);

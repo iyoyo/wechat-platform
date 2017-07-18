@@ -152,6 +152,8 @@ class MessageService
                 ];
                 $data = $this->BackCurl($url.'/wechat_call_back/message', $method = self::GET, $params);
 
+              
+
                 return $this->BackMessage($data);
             }
 
@@ -204,7 +206,7 @@ class MessageService
     }
 
         // 消息回复
-        protected function BackMessage($data)
+        public function BackMessage($data)
         {
             $type = isset($data['type']) ? $data['type'] : '';
             $content = isset($data['content']) ? $data['content'] : '';

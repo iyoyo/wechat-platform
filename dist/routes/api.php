@@ -154,4 +154,22 @@ Route::group(['middleware' => ['auth_client', 'parameter']], function () {
         //设置会员卡券失效
         Route::post('/disable', 'CardController@disable');
     });
+
+    //客服
+    Route::group(['prefix' => 'staff'], function ($router) {
+        Route::get('/lists', 'StaffController@getLists');
+
+        Route::get('/on_lines', 'StaffController@getOnLines');
+
+        Route::post('/create', 'StaffController@store');
+
+        Route::post('/send/message', 'StaffController@sendMessage');
+
+        Route::post('/invite', 'StaffController@invite');
+
+        Route::post('/session/create', 'StaffController@SessionCreate');
+
+    });
+
+
 });
