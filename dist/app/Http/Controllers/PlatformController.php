@@ -11,11 +11,13 @@ use iBrand\WechatPlatform\Services\PlatformService;
 
 class PlatformController extends Controller
 {
+
     /**
      * 引导用户进入授权页.
      * @param PlatformService $platform
      * @return mixed
      */
+    
     public function auth(PlatformService $platform)
     {
         $clientId = request('client_id');

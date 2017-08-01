@@ -171,5 +171,24 @@ Route::group(['middleware' => ['auth_client', 'parameter']], function () {
 
     });
 
+    //优惠券
+    Route::group(['prefix' => 'coupon'], function ($router) {
+        Route::get('/colors', 'CouponController@getColors');
+        Route::post('/setTestWhitelist', 'CouponController@setTestWhitelist');
+        Route::post('/create', 'CouponController@create');
+        Route::post('/QRCode', 'CouponController@QRCode');
+        Route::post('/getinfo', 'CouponController@getInfo');
+        Route::post('/update', 'CouponController@update');
+        Route::post('/update/quantityt', 'CouponController@updateQuantity');
+        Route::post('/disable', 'CouponController@disable');
+        Route::post('/delete', 'CouponController@delete');
+
+        Route::post('/getCode', 'CouponController@getCode');
+        Route::post('/consumeCode', 'CouponController@consumeCode');
+
+    });
+
+
+
 
 });

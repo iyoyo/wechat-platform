@@ -86,7 +86,7 @@ class MessageService
                         break;
                     case 'user_get_card':
                         $params = [
-                            'appid'=>$appid,
+                            'app_id'=>$appid,
                             'open_id'=>$message->FromUserName,
                             'event_type'=>'user_get_card',
                             'card_id'=>$message->CardId,
@@ -100,7 +100,7 @@ class MessageService
 //                        break;
                     case 'user_del_card':
                         $params = [
-                            'appid'=>$appid,
+                            'app_id'=>$appid,
                             'open_id'=>$message->FromUserName,
                             'event_type'=>'user_del_card',
                             'card_id'=>$message->CardId,
@@ -108,9 +108,15 @@ class MessageService
                         ];
 
                         return $this->callBackEvent($url, $params);
-//                        $this->repository->deleteCard($appid, $message->CardId, $message->UserCardCode, $message->FromUserName);
-//                        break;
-
+                    case 'user_consume_card':
+                        $params = [
+                            'app_id'=>$appid,
+                            'open_id'=>$message->FromUserName,
+                            'event_type'=>'user_consume_card',
+                            'card_id'=>$message->CardId,
+                            'code'=>$message->UserCardCode,
+                        ];
+                        return $this->callBackEvent($url, $params);
                     case 'SCAN':
                         $params = [
                             'app_id'=>$appid,
