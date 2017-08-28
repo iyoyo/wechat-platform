@@ -136,7 +136,7 @@ class MessageService
                             'event_type'=>'CLICK',
                             'key'=>$message->EventKey,
                         ];
-
+                        
                         return $this->callBackEvent($url, $params);
                         break;
                     //全网发布测试：事件

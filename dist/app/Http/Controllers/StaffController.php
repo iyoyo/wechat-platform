@@ -144,7 +144,7 @@ class StaffController extends Controller
 
 
     /**
-     * 会发
+     * 创建会话
      * @return \EasyWeChat\Support\Collection
      */
     public function SessionCreate()
@@ -160,13 +160,36 @@ class StaffController extends Controller
 
 
         // 调用接口
-        $result = $this->staff->create($data['kf_account'],$data['openid']);
+        $result = $this->session->create($data['kf_account'],$data['openid']);
+
+        return $result;
 
     }
 
 
 
+    /**
+     * 关闭会话
+     * @return \EasyWeChat\Support\Collection
+     */
+    public function SessionClose()
+    {
 
+        // 参数
+        $appid = request('appid');
+
+        $data = request()->json()->all();
+
+        // 授权
+        $this->platform->authorizeAPI($this->session, $appid);
+
+
+        // 调用接口
+        $result = $this->session->close($data['kf_account'],$data['openid']);
+
+        return $result;
+
+    }
 
 
 
