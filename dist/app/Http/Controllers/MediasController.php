@@ -219,7 +219,6 @@ class MediasController extends Controller
         //调用接口
 
         if (isset($data['index'])) {
-            
             $result = $this->material->updateArticle($data['mediaId'], $data['data'], $data['index']);
         } else {
             $result = $this->material->updateArticle($data['mediaId'], $data['data']);

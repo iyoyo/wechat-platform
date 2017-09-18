@@ -32,4 +32,13 @@ class AuthorizerController extends Controller
 
         return '';
     }
+
+    public function update()
+    {
+        if (request('client_id')&&request('app_id')) {
+          return $this->repository->updateDel(request('client_id'),request('app_id'));
+        }
+        return false;
+    }
+
 }

@@ -28,11 +28,11 @@ Route::any('/notify/{appid}', 'NotifyController@notifyAccount');
 
 Route::group(['middleware' => ['auth_client']], function () {
     Route::get('authorizers', 'AuthorizerController@index');
+    Route::get('del', 'AuthorizerController@update');
 });
 
 Route::group(['middleware' => ['auth_client', 'parameter']], function () {
 
-//    Route::get('authorizers', 'AuthorizerController@index');
 
     // 获取OAuth用户信息
     Route::get('/oauth/user', 'OAuthController@userinfo');

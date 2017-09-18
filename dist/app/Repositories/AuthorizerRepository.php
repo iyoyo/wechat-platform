@@ -48,6 +48,12 @@ class AuthorizerRepository
         return Authorizer::where('client_id', $clientId)->update(['call_back_url'=>$url]);
     }
 
+
+    public function updateDel($clientId, $app_id)
+    {
+        return Authorizer::where(['client_id'=>$clientId,'appid'=>$app_id])->update(['client_id'=>0]);
+    }
+
     public function getCallBackUrl($appId)
     {
         $res = Authorizer::where('appid', $appId)->first(['call_back_url'])->toArray();

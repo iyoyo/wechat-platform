@@ -143,6 +143,23 @@ class StaffController extends Controller
     }
 
 
+    protected function getNickName($kf_account,$appid){
+        // 授权
+        $this->platform->authorizeAPI($this->staff, $appid);
+        $str='';
+        $result = $this->staff->lists();
+        if(count($result)>0){
+            foreach ($result['kf_list'] as $item){
+                if($item['kf_account']==$kf_account){
+                    $str=$item['kf_nick'];
+                }
+            }
+        }
+        return $str;
+    }
+
+
+
     /**
      * 创建会话
      * @return \EasyWeChat\Support\Collection
@@ -158,11 +175,24 @@ class StaffController extends Controller
         // 授权
         $this->platform->authorizeAPI($this->session, $appid);
 
-
+        $res=[];
         // 调用接口
-        $result = $this->session->create($data['kf_account'],$data['openid']);
 
-        return $result;
+        $result = $this->session->get($data['openid']);
+
+        if($result->kf_account){
+            return [];
+        }else{
+            if($res= $this->session->create($data['kf_account'],$data['openid'])){
+                $rest = $this->session->get($data['openid']);
+                $data=$this->getNickName($rest['kf_account'],$appid);
+                return ['nick_name'=>$data];
+            }
+
+            return false;
+        }
+
+
 
     }
 
@@ -190,6 +220,11 @@ class StaffController extends Controller
         return $result;
 
     }
+
+
+
+
+
 
 
 
