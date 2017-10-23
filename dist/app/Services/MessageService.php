@@ -106,7 +106,6 @@ class MessageService
                             'card_id'=>$message->CardId,
                             'code'=>$message->UserCardCode,
                         ];
-
                         return $this->callBackEvent($url, $params);
                     case 'user_consume_card':
                         $params = [
@@ -117,6 +116,17 @@ class MessageService
                             'code'=>$message->UserCardCode,
                         ];
                         return $this->callBackEvent($url, $params);
+
+                    case 'user_view_card':
+                        $params = [
+                            'app_id'=>$appid,
+                            'open_id'=>$message->FromUserName,
+                            'event_type'=>'user_view_card',
+                            'card_id'=>$message->CardId,
+                            'code'=>$message->UserCardCode,
+                        ];
+                        return $this->callBackEvent($url, $params);
+
                     case 'SCAN':
                         $params = [
                             'app_id'=>$appid,
