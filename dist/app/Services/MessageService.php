@@ -12,8 +12,13 @@ use EasyWeChat\Server\Guard;
 use EasyWeChat\Message\Image;
 use EasyWeChat\Message\Video;
 use EasyWeChat\Message\Article;
+use EasyWeChat\Message\Raw;
 use iBrand\WechatPlatform\Repositories\CardRepository;
 use iBrand\WechatPlatform\Repositories\AuthorizerRepository;
+use EasyWeChat\Staff\Staff;
+use iBrand\WechatPlatform\Services\PlatformService;
+
+
 
 /**
  * 公众平台推送
@@ -40,14 +45,23 @@ class MessageService
 
     protected $authorizerRepository;
 
+    private $staff;
+
+    private $platformService;
+
     public function __construct(
         CardRepository $repository,
         Guard $server,
-        AuthorizerRepository $authorizerRepository
+        AuthorizerRepository $authorizerRepository,
+        Staff $staff,
+        PlatformService $platformService
+
 ) {
         $this->repository = $repository;
         $this->server = $server;
         $this->authorizerRepository = $authorizerRepository;
+        $this->staff=$staff;
+        $this->platformService=$platformService;
     }
 
     /**
@@ -146,7 +160,7 @@ class MessageService
                             'event_type'=>'CLICK',
                             'key'=>$message->EventKey,
                         ];
-                        
+//                        return $this->BackMessage(['type'=>'card','card_id'=>'poGxkwkjK8iVzLFM0dlVn2zk85qc','app_id'=>$appid,'open_id'=>$message->FromUserName]);
                         return $this->callBackEvent($url, $params);
                         break;
                     //全网发布测试：事件
@@ -224,50 +238,88 @@ class MessageService
         // 消息回复
         public function BackMessage($data)
         {
-            $type = isset($data['type']) ? $data['type'] : '';
-            $content = isset($data['content']) ? $data['content'] : '';
-            $mediaId = isset($data['media_id']) ? $data['media_id'] : '';
-            // 图文素材
-            $title = isset($data['title']) ? $data['title'] : '';
-            $description = isset($data['description']) ? $data['description'] : '';
-            $image = isset($data['image']) ? $data['image'] : '';
-            $url = isset($data['url']) ? $data['url'] : '';
+            if(count($data)>0){
+                foreach ($data  as $k=>$item){
+                   if(!empty($item) And isset($item['type'])){
+                       //授权
+                       $this->platformService->authorizeAPI($this->staff,$item['app_id']);
+                       $message='';
+                       switch ($item['type']) {
+                           case 'text':
+                               $message='{
+                                  "touser":"'.$item['open_id'].'",
+                                  "msgtype":"text",
+                                  "text":{
+                                           "content":"'.$item['content'].'",
+                                   },
+                                }';
+                               break;
+                           case 'image':
+                               $message='{
+                                  "touser":"'.$item['open_id'].'",
+                                  "msgtype":"image",
+                                  "image":{
+                                           "media_id":"'.$item['media_id'].'",
+                                   },
+                                }';
+                               break;
+                           case 'voice':
 
-            switch ($type) {
-                case 'text':
-                    return  new Text(['content' =>$content]);
-                    break;
-                case 'image':
-                     return new Image(['media_id' => $mediaId]);
-                    break;
-                case 'voice':
-                    return '收到语音消息';
-                    break;
-                case 'video':
-                    return new Video(['media_id' => $mediaId]);
-                    break;
-                case 'article':
-                    $news = new News([
-                        'title'       =>$title,
-                        'description' =>$description,
-                        'url'         =>$url,
-                        'image'       => $image,
-                    ]);
+                               break;
+                           case 'video':
+                               $message='{
+                                  "touser":"'.$item['open_id'].'",
+                                  "msgtype":"video",
+                                  "video":{
+                                           "media_id":"'.$item['media_id'].'",
+                                            "thumb_media_id":"'.$item['thumb_media_id'].'",
+                                            "title":"'.$item['title'].'",
+                                            "description":"'.$item['description'].'",
+                                   },
+                                }';
+                               break;
+                           case 'article':
+                               $news = new News([
+                                   'title'       =>$item['title'],
+                                   'description' =>$item['description'],
+                                   'url'         =>$item['url'],
+                                   'image'       => $item['image'],
+                               ]);
+                               return $news;
+                           case 'card':
+                           $message='{
+                                  "touser":"'.$item['open_id'].'",
+                                  "msgtype":"wxcard",
+                                  "wxcard":{
+                                           "card_id":"'.$item['card_id'].'",
+                                   },
+                                }';
+                               break;
 
-                    return $news;
-                    break;
-                // ... 其它消息
-                default:
-                    return '';
-                    break;
+                           // ... 其它消息
+                           default:
+                               return '';
+                               break;
+                       }
+
+                       $result = $this->staff->send($message);
+
+                   }
+
+
+
+                }
             }
+
         }
+
+
 
     // K事件处理
     public function callBackEvent($url, $data)
     {
         $data = $this->BackCurl($url.'/wechat_call_back/event', $method = self::GET, $data);
-
+        \Log::info($data);
         return $this->BackMessage($data);
     }
 }
