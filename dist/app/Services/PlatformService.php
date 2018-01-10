@@ -122,7 +122,7 @@ class PlatformService
 
         // 基本信息
         $authorizer->nick_name = urldecode($basic_info['nick_name']);
-        $authorizer->head_img = $basic_info['head_img'];
+        $authorizer->head_img = isset($basic_info['head_img'])?$basic_info['head_img']:'';
         $authorizer->user_name = urldecode($basic_info['user_name']);
         $authorizer->principal_name = urldecode($basic_info['principal_name']);
         $authorizer->qrcode_url = $basic_info['qrcode_url'];
