@@ -311,6 +311,8 @@ class MessageService
                 }
             }
 
+            return '';
+
         }
 
 
